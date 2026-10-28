@@ -9,194 +9,194 @@
 <style>
 .hero{background:var(--dark);color:#fff;padding:60px 0 70px;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(20,20,20,.95),rgba(30,30,30,.85));z-index:0}
-.hero .container{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero.container{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .hero-text h1{font-size:2.35rem;font-weight:800;line-height:1.35;margin-bottom:18px}
 .hero-text p{font-size:1.1rem;color:#ccc;margin-bottom:28px;line-height:1.8}
 .hero-img{border-radius:var(--radius);overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.4)}
 .hero-img img{width:100%;height:auto}
 .steps-section{padding:60px 0;background:#faf9f7}
 .step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.step-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;text-align:center;transition:box-shadow .2s}
+.step-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;text-align:center;transition:box-shadow.2s}
 .step-card:hover{box-shadow:var(--shadow)}
-.step-card .num{width:44px;height:44px;border-radius:50%;background:var(--gold);color:#111;font-weight:800;display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:1.1rem}
+.step-card.num{width:44px;height:44px;border-radius:50%;background:var(--gold);color:#111;font-weight:800;display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:1.1rem}
 .step-card h3{font-size:1rem;margin-bottom:8px}
 .step-card p{font-size:.85rem;color:var(--muted);line-height:1.7}
 .come-soon{padding:50px 0}
 .cs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.cs-card{border:2px dashed var(--line);border-radius:var(--radius);padding:32px 20px;text-align:center;transition:border-color .2s,transform .2s}
+.cs-card{border:2px dashed var(--line);border-radius:var(--radius);padding:32px 20px;text-align:center;transition:border-color.2s,transform.2s}
 .cs-card:hover{border-color:var(--gold);transform:translateY(-2px)}
-.cs-card .icon{font-size:2.2rem;margin-bottom:12px}
+.cs-card.icon{font-size:2.2rem;margin-bottom:12px}
 .cs-card h3{font-size:1.05rem;margin-bottom:6px}
 .cs-card p{font-size:.82rem;color:var(--muted)}
 .cs-badge{display:inline-block;background:var(--gold-light);color:var(--gold-hover);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:10px}
 @media(max-width:900px){
-  .hero{padding:36px 0 44px}
-  .hero .container{grid-template-columns:1fr;gap:24px}
-  .hero-text h1{font-size:1.65rem;line-height:1.45}
-  .hero-text p{font-size:1rem}
-  .hero .btn{width:100%;margin-bottom:8px}
-  .steps-section{padding:40px 0}
-  .step-grid{grid-template-columns:1fr;gap:14px}
-  .step-card{padding:18px}
-  .come-soon{padding:36px 0}
-  .cs-grid{grid-template-columns:1fr 1fr;gap:12px}
-  .cs-card{padding:22px 14px}
+.hero{padding:36px 0 44px}
+.hero.container{grid-template-columns:1fr;gap:24px}
+.hero-text h1{font-size:1.65rem;line-height:1.45}
+.hero-text p{font-size:1rem}
+.hero.btn{width:100%;margin-bottom:8px}
+.steps-section{padding:40px 0}
+.step-grid{grid-template-columns:1fr;gap:14px}
+.step-card{padding:18px}
+.come-soon{padding:36px 0}
+.cs-grid{grid-template-columns:1fr 1fr;gap:12px}
+.cs-card{padding:22px 14px}
 }
 @media(max-width:420px){
-  .cs-grid{grid-template-columns:1fr}
+.cs-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <header class="header">
 <div class="container">
-  <a href="index.html" class="logo">DRÉSSINGO</a>
-  <button id="menu-toggle" class="menu-toggle" aria-label="القائمة">☰</button>
-  <nav id="main-nav" class="nav">
-    <a href="catalog.html">الكتالوج</a>
-    <a href="winter.html">الشتوي</a>
-    <a href="lingerie.html">اللانجري</a>
-    <a href="underwear.html">الداخلية</a>
-    <a href="pajama.html">البيجاما</a>
-    <a href="about.html">من نحن</a>
-    <a href="contact.html">تواصل</a>
-    <a href="blog.html">المدونة</a>
-  </nav>
-  <div class="header-actions">
-    <a class="btn btn-outline btn-sm cart-badge" href="order.html">🛒 الطلب <span class="badge cart-count" data-count="0" style="display:none">0</span></a>
-    <a class="btn btn-whatsapp btn-sm" href="https://wa.me/905334491040?text=مرحباً، أرغب في الاستفسار عن الكتالوج">واتساب</a>
-  </div>
+ <a href="index.html" class="logo">DRESSINGO</a>
+ <button id="menu-toggle" class="menu-toggle" aria-label="القائمة">☰</button>
+ <nav id="main-nav" class="nav">
+ <a href="catalog.html">الكتالوج</a>
+ <a href="winter.html">الشتوي</a>
+ <a href="lingerie.html">اللانجري</a>
+ <a href="underwear.html">الداخلية</a>
+ <a href="pajama.html">البيجاما</a>
+ <a href="about.html">من نحن</a>
+ <a href="contact.html">تواصل</a>
+ <a href="blog.html">المدونة</a>
+ </nav>
+ <div class="header-actions">
+ <a class="btn btn-outline btn-sm cart-badge" href="order.html">🛒 الطلب <span class="badge cart-count" data-count="0" style="display:none">0</span></a>
+ <a class="btn btn-whatsapp btn-sm" href="https://wa.me/905334491040?text=مرحباً، أرغب في الاستفسار عن الكتالوج">واتساب</a>
+ </div>
 </div>
 </header>
 
 <section class="hero">
 <div class="container">
-  <div class="hero-text">
-    <h1>وكيلك في إسطنبول<br/><span style="color:var(--gold)">من المصنع إلى بابك</span></h1>
-    <p>أنت تختار من الكتالوج أو ترسل لنا الصور والمواصفات. نحن في إسطنبول — في مرتر، عثمان‌بيك، زتيون‌بورنو، لاليه، باغجلر، إيشتشي — نبحث عن المصنع المناسب، نتفاوض بالسعر، نفحص الجودة، ونجمع طلبك في شحنة واحدة. كل ما عليك هو الانتظار حتى يصل إلى بابك.</p>
-    <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <a class="btn" href="catalog.html">تصفح الكتالوج</a>
-      <a class="btn btn-outline" href="order.html">بدء طلب</a>
-    </div>
-  </div>
-  <div class="hero-img"><img src="assets/img/winter-c841-009.jpg" alt="أطقم شتوية من كتالوج دريسنجو"/></div>
+ <div class="hero-text">
+ <h1>وكيلك في إسطنبول<br/><span style="color:var(--gold)">من المصنع إلى بابك</span></h1>
+ <p>أنت تختار من الكتالوج أو ترسل لنا الصور والمواصفات. نحن في إسطنبول — في مرتر، عثمان‌بيك، زتيون‌بورنو، لاليه، باغجلر، إيشتشي — نبحث عن المصنع المناسب، نتفاوض بالسعر، نفحص الجودة، ونجمع طلبك في شحنة واحدة. كل ما عليك هو الانتظار حتى يصل إلى بابك.</p>
+ <div style="display:flex;gap:12px;flex-wrap:wrap">
+ <a class="btn" href="catalog.html">تصفح الكتالوج</a>
+ <a class="btn btn-outline" href="order.html">بدء طلب</a>
+ </div>
+ </div>
+ <div class="hero-img"><img src="assets/img/winter-c841-009.jpg" alt="أطقم شتوية من كتالوج دريسنجو"/></div>
 </div>
 </section>
 
 <section class="steps-section">
 <div class="container">
-  <h2 class="section-title" style="text-align:center">كيف نعمل</h2>
-  <p class="section-sub" style="text-align:center;margin-bottom:40px">أربع خطوات تفصلك عن سلعتك</p>
-  <div class="step-grid">
-    <div class="step-card"><div class="num">١</div><h3>اختر من الكتالوج</h3><p>تصفح الأقسام أو أرسل لنا صور المنتجات والمواصفات التي تريدها</p></div>
-    <div class="step-card"><div class="num">٢</div><h3>نتفاوض مع المصنع</h3><p>نبحث عن المصنع المناسب في إسطنبول، نضغط السعر، ونؤكد التفاصيل</p></div>
-    <div class="step-card"><div class="num">٣</div><h3>نجمع ونفحص</h3><p>نفحص الجودة، نتحقق من الأكواد والمقاسات، ونجمع كل الطلبات في شحنة واحدة</p></div>
-    <div class="step-card"><div class="num">٤</div><h3>شحن مؤكد</h3><p>نسلم الشحنة لوسطاء الشحن المعتمدين مع رقم تتبع حتى وصولها لبابك</p></div>
-  </div>
+ <h2 class="section-title" style="text-align:center">كيف نعمل</h2>
+ <p class="section-sub" style="text-align:center;margin-bottom:40px">أربع خطوات تفصلك عن سلعتك</p>
+ <div class="step-grid">
+ <div class="step-card"><div class="num">١</div><h3>اختر من الكتالوج</h3><p>تصفح الأقسام أو أرسل لنا صور المنتجات والمواصفات التي تريدها</p></div>
+ <div class="step-card"><div class="num">٢</div><h3>نتفاوض مع المصنع</h3><p>نبحث عن المصنع المناسب في إسطنبول، نضغط السعر، ونؤكد التفاصيل</p></div>
+ <div class="step-card"><div class="num">٣</div><h3>نجمع ونفحص</h3><p>نفحص الجودة، نتحقق من الأكواد والمقاسات، ونجمع كل الطلبات في شحنة واحدة</p></div>
+ <div class="step-card"><div class="num">٤</div><h3>شحن مؤكد</h3><p>نسلم الشحنة لوسطاء الشحن المعتمدين مع رقم تتبع حتى وصولها لبابك</p></div>
+ </div>
 </div>
 </section>
 
 <section class="categories" style="padding-top:50px">
 <div class="container">
-  <h2 class="section-title">الأقسام المتاحة</h2>
-  <p class="section-sub">تصفح حسب الفئة لتصل إلى ما تحتاجه بسرعة</p>
-  <div class="cat-grid">
-    <a href="winter.html" class="cat-card">
-      <img src="assets/img/winter-c841-001.jpg" alt="أطقم شتوية"/>
-      <div class="label">نسائي شتوي · كتالوج ٢٠٢٦-٢٠٢٧</div>
-    </a>
-    <a href="lingerie.html" class="cat-card">
-      <img src="assets/img/lingerie-31892.jpg" alt="لانجري وأطقم"/>
-      <div class="label">لانجري وأطقم · تشكيلة جديدة</div>
-    </a>
-    <a href="underwear.html" class="cat-card">
-      <img src="assets/img/underwear-2001-a.jpg" alt="ملابس داخلية وقطنيات"/>
-      <div class="label">ملابس داخلية وقطنيات · Since 1958</div>
-    </a>
-    <a href="pajama.html" class="cat-card">
-      <img src="assets/img/pajama-901.jpg" alt="بيجاما وهوم وير"/>
-      <div class="label">بيجاما وهوم وير · ٢٠٢٥</div>
-    </a>
-  </div>
+ <h2 class="section-title">الأقسام المتاحة</h2>
+ <p class="section-sub">تصفح حسب الفئة لتصل إلى ما تحتاجه بسرعة</p>
+ <div class="cat-grid">
+ <a href="winter.html" class="cat-card">
+ <img src="assets/img/winter-c841-001.jpg" alt="أطقم شتوية"/>
+ <div class="label">نسائي شتوي · كتالوج ٢٠٢٦-٢٠٢٧</div>
+ </a>
+ <a href="lingerie.html" class="cat-card">
+ <img src="assets/img/lingerie-31892.jpg" alt="لانجري وأطقم"/>
+ <div class="label">لانجري وأطقم · تشكيلة جديدة</div>
+ </a>
+ <a href="underwear.html" class="cat-card">
+ <img src="assets/img/underwear-2001-a.jpg" alt="ملابس داخلية وقطنيات"/>
+ <div class="label">ملابس داخلية وقطنيات · Since 1958</div>
+ </a>
+ <a href="pajama.html" class="cat-card">
+ <img src="assets/img/pajama-901.jpg" alt="بيجاما وهوم وير"/>
+ <div class="label">بيجاما وهوم وير · ٢٠٢٥</div>
+ </a>
+ </div>
 </div>
 </section>
 
 <section class="come-soon">
 <div class="container">
-  <h2 class="section-title" style="text-align:center">أقسام قادمة</h2>
-  <p class="section-sub" style="text-align:center;margin-bottom:32px">نعمل حالياً على إضافة المزيد من الفئات لتغطية احتياجاتك الكاملة</p>
-  <div class="cs-grid">
-    <div class="cs-card"><div class="icon">👔</div><h3>رجالي</h3><p>ملابس رجالية بالجملة من أفضل مصانع إسطنبول</p><div class="cs-badge">قريباً</div></div>
-    <div class="cs-card"><div class="icon">👶</div><h3>أطفال</h3><p>أزياء أطفال بجودة عالية وأسعار تنافسية</p><div class="cs-badge">قريباً</div></div>
-    <div class="cs-card"><div class="icon">👜</div><h3>حقائب وأحذية</h3><p>تشكيلة واسعة من الحقائب والأحذية العصرية</p><div class="cs-badge">قريباً</div></div>
-    <div class="cs-card"><div class="icon">💎</div><h3>اكسسوارات</h3><p>إكسسوارات ومجوهرات مصاحبة للملابس</p><div class="cs-badge">قريباً</div></div>
-  </div>
+ <h2 class="section-title" style="text-align:center">أقسام قادمة</h2>
+ <p class="section-sub" style="text-align:center;margin-bottom:32px">نعمل حالياً على إضافة المزيد من الفئات لتغطية احتياجاتك الكاملة</p>
+ <div class="cs-grid">
+ <div class="cs-card"><div class="icon">👔</div><h3>رجالي</h3><p>ملابس رجالية بالجملة من أفضل مصانع إسطنبول</p><div class="cs-badge">قريباً</div></div>
+ <div class="cs-card"><div class="icon">👶</div><h3>أطفال</h3><p>أزياء أطفال بجودة عالية وأسعار تنافسية</p><div class="cs-badge">قريباً</div></div>
+ <div class="cs-card"><div class="icon">👜</div><h3>حقائب وأحذية</h3><p>تشكيلة واسعة من الحقائب والأحذية العصرية</p><div class="cs-badge">قريباً</div></div>
+ <div class="cs-card"><div class="icon">💎</div><h3>اكسسوارات</h3><p>إكسسوارات ومجوهرات مصاحبة للملابس</p><div class="cs-badge">قريباً</div></div>
+ </div>
 </div>
 </section>
 
 <section class="why">
 <div class="container">
-  <div class="why-grid">
-    <div class="why-item"><h3>إسطنبول · موقع لوجستي</h3><p>موجود في قلب مناطق التصنيع والتصدير: مرتر، عثمان‌بيك، زتيون‌بورنو، لاليه، باغجلر، إيشتشي</p></div>
-    <div class="why-item"><h3>مباشرة من المصنع</h3><p>نتعامل مع المصانع مباشرة — لا وسطاء يرفعون السعر، سعر الجملة الحقيقي يصلك</p></div>
-    <div class="why-item"><h3>فحص قبل الشحن</h3><p>نتحقق من الأكواد والمقاسات والجودة قبل ما نشحن — أي خطأ يتحل قبل ما يخرج</p></div>
-    <div class="why-item"><h3>شحن وسيط معتمد</h3><p>وسطاء شحن موثوقون يجمعون الشحنات ويضمنون الوصول لأي مكان في العالم العربي</p></div>
-  </div>
+ <div class="why-grid">
+ <div class="why-item"><h3>إسطنبول · موقع لوجستي</h3><p>موجود في قلب مناطق التصنيع والتصدير: مرتر، عثمان‌بيك، زتيون‌بورنو، لاليه، باغجلر، إيشتشي</p></div>
+ <div class="why-item"><h3>مباشرة من المصنع</h3><p>نتعامل مع المصانع مباشرة — لا وسطاء يرفعون السعر، سعر الجملة الحقيقي يصلك</p></div>
+ <div class="why-item"><h3>فحص قبل الشحن</h3><p>نتحقق من الأكواد والمقاسات والجودة قبل ما نشحن — أي خطأ يتحل قبل ما يخرج</p></div>
+ <div class="why-item"><h3>شحن وسيط معتمد</h3><p>وسطاء شحن موثوقون يجمعون الشحنات ويضمنون الوصول لأي مكان في العالم العربي</p></div>
+ </div>
 </div>
 </section>
 
 <section class="featured">
 <div class="container">
-  <h2 class="section-title">منتجات مميزة</h2>
-  <p class="section-sub">أبرز ما في الكتالوج حالياً</p>
-  <div class="prod-grid" id="featured-grid"></div>
+ <h2 class="section-title">منتجات مميزة</h2>
+ <p class="section-sub">أبرز ما في الكتالوج حالياً</p>
+ <div class="prod-grid" id="featured-grid"></div>
 </div>
 </section>
 
 <section class="testimonials">
 <div class="container">
-  <h2 class="section-title">آراء العملاء</h2>
-  <p class="section-sub">عملاؤنا يوصون بنا — ١٠٠٪ توصية من ٨ تقييمات</p>
-  <div class="test-grid">
-    <div class="test-card"><div class="stars">★★★★★</div><div class="quote">التجربة الأولى كانت سلسة جداً: أرسلت الأكواد عبر الواتساب وكانت الاستجابة خلال دقائق. الشحن وصلنا في الوقت المحدد.</div><div class="author">أحمد — الرياض</div></div>
-    <div class="test-card"><div class="stars">★★★★★</div><div class="quote">جودة الأقمشة ممتازة خاصة أطقم القطن. أكواد الكتالوج واضحة ولا يوجد لبس فيما يخص المقاسات.</div><div class="author">فاطمة — جدة</div></div>
-    <div class="test-card"><div class="stars">★★★★★</div><div class="quote">المتابعة ممتازة من فريق دريسنجو، وكانوا مرنين في ترتيب الشحنات الكبيرة.</div><div class="author">محمد — دبي</div></div>
-  </div>
+ <h2 class="section-title">آراء العملاء</h2>
+ <p class="section-sub">عملاؤنا يوصون بنا — ١٠٠٪ توصية من ٨ تقييمات</p>
+ <div class="test-grid">
+ <div class="test-card"><div class="stars">★★★★★</div><div class="quote">التجربة الأولى كانت سلسة جداً: أرسلت الأكواد عبر الواتساب وكانت الاستجابة خلال دقائق. الشحن وصلنا في الوقت المحدد.</div><div class="author">أحمد — الرياض</div></div>
+ <div class="test-card"><div class="stars">★★★★★</div><div class="quote">جودة الأقمشة ممتازة خاصة أطقم القطن. أكواد الكتالوج واضحة ولا يوجد لبس فيما يخص المقاسات.</div><div class="author">فاطمة — جدة</div></div>
+ <div class="test-card"><div class="stars">★★★★★</div><div class="quote">المتابعة ممتازة من فريق دريسنجو، وكانوا مرنين في ترتيب الشحنات الكبيرة.</div><div class="author">محمد — دبي</div></div>
+ </div>
 </div>
 </section>
 
 <section class="cta">
 <div class="container">
-  <h2>جاهز تبدأ طلبك؟</h2>
-  <p>تواصل معنا الآن عبر واتساب أو املأ نموذج الطلب وسنرد عليك خلال ساعات</p>
-  <div class="cta-actions">
-    <a class="btn btn-whatsapp" href="https://wa.me/905334491040?text=مرحباً، أرغب في طلب جملة">ابدأ طلبك عبر واتساب</a>
-    <a class="btn btn-outline" href="contact.html">صفحة التواصل</a>
-  </div>
+ <h2>جاهز تبدأ طلبك؟</h2>
+ <p>تواصل معنا الآن عبر واتساب أو املأ نموذج الطلب وسنرد عليك خلال ساعات</p>
+ <div class="cta-actions">
+ <a class="btn btn-whatsapp" href="https://wa.me/905334491040?text=مرحباً، أرغب في طلب جملة">ابدأ طلبك عبر واتساب</a>
+ <a class="btn btn-outline" href="contact.html">صفحة التواصل</a>
+ </div>
 </div>
 </section>
 
 <footer class="footer">
 <div class="container">
-  <div class="footer-grid">
-    <div><h4>DRÉSSINGO</h4><p>وكيلك في إسطنبول — نشتري من المصانع لك ونوصل طلبك لأي مكان في العالم العربي.</p></div>
-    <div><h4>روابط سريعة</h4><ul style="line-height:2.2">
-      <li><a href="catalog.html">الكتالوج</a></li>
-      <li><a href="winter.html">الشتوي</a></li>
-      <li><a href="lingerie.html">اللانجري</a></li>
-      <li><a href="underwear.html">الداخلية</a></li>
-      <li><a href="pajama.html">البيجاما</a></li>
-      <li><a href="blog.html">المدونة</a></li>
-    </ul></div>
-    <div><h4>تواصل</h4><ul style="line-height:2.2">
-      <li>واتساب: <a href="https://wa.me/905334491040">+90 533 449 10 40</a></li>
-      <li>إسطنبول، تركيا 34520</li>
-    </ul></div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 دريسنجو. جميع الحقوق محفوظة.</span>
-    <a href="admin.html" style="font-size:.8rem;opacity:.6">لوحة الإدارة</a>
-  </div>
+ <div class="footer-grid">
+ <div><h4>DRESSINGO</h4><p>وكيلك في إسطنبول — نشتري من المصانع لك ونوصل طلبك لأي مكان في العالم العربي.</p></div>
+ <div><h4>روابط سريعة</h4><ul style="line-height:2.2">
+ <li><a href="catalog.html">الكتالوج</a></li>
+ <li><a href="winter.html">الشتوي</a></li>
+ <li><a href="lingerie.html">اللانجري</a></li>
+ <li><a href="underwear.html">الداخلية</a></li>
+ <li><a href="pajama.html">البيجاما</a></li>
+ <li><a href="blog.html">المدونة</a></li>
+ </ul></div>
+ <div><h4>تواصل</h4><ul style="line-height:2.2">
+ <li>واتساب: <a href="https://wa.me/905334491040">+90 533 449 10 40</a></li>
+ <li>إسطنبول، تركيا 34520</li>
+ </ul></div>
+ </div>
+ <div class="footer-bottom">
+ <span>© 2026 دريسنجو. جميع الحقوق محفوظة.</span>
+ <a href="admin.html" style="font-size:.8rem;opacity:.6">لوحة الإدارة</a>
+ </div>
 </div>
 </footer>
 
@@ -205,24 +205,24 @@
 <script src="assets/app.js"></script>
 <script>
 ;(function(){
-  const FEATURED=[
-    {code:'C841-009',name:'طقم بامبو شتوي — síyah',sizes:'M-L-XL-XXL',cat:'winter',img:'winter-c841-009.jpg'},
-    {code:'C841-011',name:'طقم مريح صوف',sizes:'M-L-XL-XXL',cat:'winter',img:'winter-c841-011.jpg'},
-    {code:'31892',name:'طقم لانجري قطعتين',sizes:'S-M-L-XL-XXL',cat:'lingerie',img:'lingerie-31892.jpg'},
-    {code:'6628',name:'طقم لانجري ثلاث قطع',sizes:'S-M-L-XL-XXL',cat:'lingerie',img:'lingerie-set-6628.jpg'},
-    {code:'2001-A',name:'حمالة قطنية 1x1 Rib',sizes:'S-M-L-XL-XXL',cat:'underwear',img:'underwear-2001-a.jpg'},
-    {code:'1008-A',name:'تيشيرت قطني 1x1 Rib',sizes:'S-M-L-XL-XXL',cat:'underwear',img:'underwear-1008-a.jpg'},
-    {code:'901',name:'فستان نوم زهري قصير',sizes:'S-M-L-XL',cat:'pajama',img:'pajama-901.jpg'},
-    {code:'131',name:'طقم بيجامة قطن',sizes:'S-M-L-XL',cat:'pajama',img:'pajama-131.jpg'}
-  ];
-  const grid=document.getElementById('featured-grid');
-  if(!grid)return;
-  FEATURED.forEach(p=>{
-    const card=document.createElement('article');
-    card.className='prod-card';card.dataset.cat=p.cat;
-    card.innerHTML='<a href="'+p.cat+'.html"><div class="thumb"><img src="assets/img/'+p.img+'" alt="'+p.name+'" loading="lazy"/></div><div class="info"><div class="code">'+p.code+'</div><div class="name">'+p.name+'</div><div class="sizes">'+p.sizes+'</div><div class="actions"><button class="btn btn-sm btn-whatsapp" onclick="addToOrder(\'"+p.code+"\',\''+p.name+'\',\''+p.sizes+'\')">أضف للطلب</button><a class="btn btn-sm btn-outline" href="'+p.cat+'.html">عرض</a></div></div></a>';
-    grid.appendChild(card);
-  });
+ const FEATURED=[
+ {code:'C841-009',name:'طقم بامبو شتوي',sizes:'M-L-XL-XXL',cat:'winter',img:'winter-c841-009.jpg'},
+ {code:'C841-011',name:'طقم مريح صوف',sizes:'M-L-XL-XXL',cat:'winter',img:'winter-c841-011.jpg'},
+ {code:'31892',name:'طقم لانجري قطعتين',sizes:'S-M-L-XL-XXL',cat:'lingerie',img:'lingerie-31892.jpg'},
+ {code:'6628',name:'طقم لانجري ثلاث قطع',sizes:'S-M-L-XL-XXL',cat:'lingerie',img:'lingerie-set-6628.jpg'},
+ {code:'2001-A',name:'حمالة قطنية 1x1 Rib',sizes:'S-M-L-XL-XXL',cat:'underwear',img:'underwear-2001-a.jpg'},
+ {code:'1008-A',name:'تيشيرت قطني 1x1 Rib',sizes:'S-M-L-XL-XXL',cat:'underwear',img:'underwear-1008-a.jpg'},
+ {code:'901',name:'فستان نوم زهري قصير',sizes:'S-M-L-XL',cat:'pajama',img:'pajama-901.jpg'},
+ {code:'131',name:'طقم بيجامة قطن',sizes:'S-M-L-XL',cat:'pajama',img:'pajama-131.jpg'}
+ ];
+ const grid=document.getElementById('featured-grid');
+ if(!grid)return;
+ FEATURED.forEach(p=>{
+ const card=document.createElement('article');
+ card.className='prod-card';card.dataset.cat=p.cat;
+ card.innerHTML='<a href="'+p.cat+'.html"><div class="thumb"><img src="assets/img/'+p.img+'" alt="'+p.name+'" loading="lazy"/></div><div class="info"><div class="code">'+p.code+'</div><div class="name">'+p.name+'</div><div class="sizes">'+p.sizes+'</div><div class="actions"><button class="btn btn-sm btn-whatsapp" onclick="addToOrder(\'"+p.code+"\',\''+p.name+'\',\''+p.sizes+'\')">أضف للطلب</button><a class="btn btn-sm btn-outline" href="'+p.cat+'.html">عرض</a></div></div></a>';
+ grid.appendChild(card);
+ });
 })();
 </script>
 </body>

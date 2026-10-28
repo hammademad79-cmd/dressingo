@@ -4,104 +4,104 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>تواصل معنا — دريسنجو</title>
-<meta name="description" content="تواصل مع فريق دريسنجو عبر واتساب. نسعم الرد عليك خلال ساعات عمل إسطنبول."/>
+<meta name="description" content="تواصل مع دريسنجو عبر واتساب مباشرة. وكيل شراء في إسطنبول لاستيراد الملابس بالجملة إلى الأسواق العربية. نرد خلال ساعات العمل."/>
 <link rel="stylesheet" href="assets/style.css"/>
 </head>
 <body>
 <header class="header">
 <div class="container">
-  <a href="index.html" class="logo">DRÉSSINGO</a>
-  <button id="menu-toggle" class="menu-toggle" aria-label="القائمة">☰</button>
-  <nav id="main-nav" class="nav">
-    <a href="catalog.html">الكتالوج</a>
-    <a href="winter.html">الشتوي</a>
-    <a href="lingerie.html">اللانجري</a>
-    <a href="underwear.html">الداخلية</a>
-    <a href="pajama.html">البيجاما</a>
-    <a href="about.html">من نحن</a>
-    <a href="contact.html" class="active">تواصل</a>
-    <a href="blog.html">المدونة</a>
-  </nav>
-  <div class="header-actions">
-    <a class="btn btn-outline btn-sm cart-badge" href="order.html">🛒 الطلب <span class="badge cart-count" data-count="0" style="display:none">0</span></a>
-    <a class="btn btn-whatsapp btn-sm" href="https://wa.me/905334491040?text=مرحباً">واتساب</a>
-  </div>
+ <a href="index.html" class="logo">DRESSINGO</a>
+ <button id="menu-toggle" class="menu-toggle" aria-label="القائمة">☰</button>
+ <nav id="main-nav" class="nav">
+ <a href="catalog.html">الكتالوج</a>
+ <a href="winter.html">الشتوي</a>
+ <a href="lingerie.html">اللانجري</a>
+ <a href="underwear.html">الداخلية</a>
+ <a href="pajama.html">البيجاما</a>
+ <a href="about.html">من نحن</a>
+ <a href="contact.html" class="active">تواصل</a>
+ <a href="blog.html">المدونة</a>
+ </nav>
+ <div class="header-actions">
+ <a class="btn btn-outline btn-sm cart-badge" href="order.html">🛒 الطلب <span class="badge cart-count" data-count="0" style="display:none">0</span></a>
+ <a class="btn btn-whatsapp btn-sm" href="https://wa.me/905334491040?text=مرحباً">واتساب</a>
+ </div>
 </div>
 </header>
 
 <section class="inner-page">
 <div class="container">
-  <a class="back-link" href="index.html">→ الرئيسية</a>
-  <h1>تواصل معنا</h1>
-  <p class="lead">فريقنا جاهز للرد عبر واتساب. نحن في إسطنبول ونعمل على توقيت تركيا (UTC+3).</p>
+ <a class="back-link" href="index.html">→ الرئيسية</a>
+ <h1>تواصل معنا</h1>
+ <p class="lead">فريقنا جاهز للرد عبر واتساب. نحن في إسطنبول ونعمل على توقيت تركيا (التوقيت العالمي+3).</p>
 
-  <div class="grid-2">
-    <div>
-      <div class="contact-card" style="margin-bottom:20px">
-        <h3>📱 واتساب</h3>
-        <a href="https://wa.me/905334491040?text=مرحباً، أرغب في الاستفسار عن الكتالوج" style="font-size:1.1rem;font-weight:700;color:var(--green)">+90 533 449 10 40</a>
-        <p style="color:var(--muted);margin-top:8px">الأسرع للرد — أرسل الكود والكمية وسنرد بأسرع وقت.</p>
-      </div>
-      <div class="contact-card">
-        <h3>📍 الموقع</h3>
-        <p style="color:var(--mid)">إسطنبول، تركيا — postal code 34520</p>
-        <p style="color:var(--muted);margin-top:8px">نعمل عن بُعد مع عملائنا في جميع أنحاء العالم العربي. نقابل المصانع وندير الشحن نيابة عنك.</p>
-      </div>
-    </div>
-    <div>
-      <div class="contact-card">
-        <h3>📨 نموذج الاستفسار</h3>
-        <p style="color:var(--muted);margin-bottom:16px">املأ البيانات وسيتم تحويل رسالتك مباشرة إلى واتساب</p>
-        <form id="contact-form" onsubmit="window.open('https://wa.me/905334491040?text='+encodeURIComponent(buildMsg()),'_blank');return false;">
-          <div class="form-group">
-            <label>الاسم الكامل</label>
-            <input id="cf-name" type="text" required placeholder="محمد أحمد"/>
-          </div>
-          <div class="form-group">
-            <label>الجوال</label>
-            <input id="cf-contact" type="text" placeholder="+966 5x xxx xxxx"/>
-          </div>
-          <div class="form-group">
-            <label>الدولة والمدينة</label>
-            <input id="cf-location" type="text" placeholder="الرياض، السعودية"/>
-          </div>
-          <div class="form-group">
-            <label>رسالتك</label>
-            <textarea id="cf-msg" rows="4" placeholder="أرغب في معرفة تفاصيل الطقم رقم C841-009..."></textarea>
-          </div>
-          <button type="submit" class="btn btn-whatsapp" style="width:100%">إرسال عبر واتساب</button>
-        </form>
-        <script>
-          function buildMsg(){
-            const n=document.getElementById('cf-name').value.trim()||'عميل';
-            const c=document.getElementById('cf-contact').value.trim();
-            const l=document.getElementById('cf-location').value.trim();
-            const m=document.getElementById('cf-msg').value.trim();
-            return 'مرحباً، أنا '+n+' | '+c+' | '+l+'\n'+(m||'أرغب في الاستفسار عن الكتالوج');
-          }
-        </script>
-      </div>
-    </div>
-  </div>
+ <div class="grid-2">
+ <div>
+ <div class="contact-card" style="margin-bottom:20px">
+ <h3>📱 واتساب</h3>
+ <a href="https://wa.me/905334491040?text=مرحباً، أرغب في الاستفسار عن الكتالوج" style="font-size:1.1rem;font-weight:700;color:var(--green)">+90 533 449 10 40</a>
+ <p style="color:var(--muted);margin-top:8px">الأسرع للرد — أرسل الكود والكمية وسنرد بأسرع وقت.</p>
+ </div>
+ <div class="contact-card">
+ <h3>📍 الموقع</h3>
+ <p style="color:var(--mid)">إسطنبول، تركيا — الرمز البريدي 34520</p>
+ <p style="color:var(--muted);margin-top:8px">نعمل عن بُعد مع عملائنا في جميع أنحاء العالم العربي. نقابل المصانع وندير الشحن نيابة عنك.</p>
+ </div>
+ </div>
+ <div>
+ <div class="contact-card">
+ <h3>📨 نموذج الاستفسار</h3>
+ <p style="color:var(--muted);margin-bottom:16px">املأ البيانات وسيتم تحويل رسالتك مباشرة إلى واتساب</p>
+ <form id="contact-form" onsubmit="window.open('https://wa.me/905334491040?text='+enالكودURIComponent(buildMsg()),'_blank');return false;">
+ <div class="form-group">
+ <label>الاسم الكامل</label>
+ <input id="cf-name" type="text" required placeholder="محمد أحمد"/>
+ </div>
+ <div class="form-group">
+ <label>الجوال</label>
+ <input id="cf-contact" type="text" placeholder="مثال: +966 50 123 4567"/>
+ </div>
+ <div class="form-group">
+ <label>الدولة والمدينة</label>
+ <input id="cf-location" type="text" placeholder="الرياض، السعودية"/>
+ </div>
+ <div class="form-group">
+ <label>رسالتك</label>
+ <textarea id="cf-msg" rows="4" placeholder="أرغب في معرفة تفاصيل الطقم رقم C841-009..."></textarea>
+ </div>
+ <button type="submit" class="btn btn-whatsapp" style="width:100%">إرسال عبر واتساب</button>
+ </form>
+ <script>
+ function buildMsg(){
+ const n=document.getElementById('cf-name').value.trim()||'عميل';
+ const c=document.getElementById('cf-contact').value.trim();
+ const l=document.getElementById('cf-location').value.trim();
+ const m=document.getElementById('cf-msg').value.trim();
+ return 'مرحباً، أنا '+n+' | '+c+' | '+l+'\n'+(m||'أرغب في الاستفسار عن الكتالوج');
+ }
+ </script>
+ </div>
+ </div>
+ </div>
 </div>
 </section>
 
 <footer class="footer">
 <div class="container">
-  <div class="footer-grid">
-    <div><h4>DRÉSSINGO</h4><p>وكيلك في إسطنبول — نشتري من المصانع لك.</p></div>
-    <div><h4>روابط</h4><ul style="line-height:2.2">
-      <li><a href="index.html">الرئيسية</a></li>
-      <li><a href="catalog.html">الكتالوج</a></li>
-      <li><a href="about.html">من نحن</a></li>
-      <li><a href="contact.html">تواصل</a></li>
-    </ul></div>
-    <div><h4>تواصل</h4><p>واتساب: <a href="https://wa.me/905334491040">+90 533 449 10 40</a><br/>إسطنبول، تركيا 34520</p></div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 دريسنجو</span>
-    <a href="admin.html" style="font-size:.8rem;opacity:.6">لوحة الإدارة</a>
-  </div>
+ <div class="footer-grid">
+ <div><h4>DRESSINGO</h4><p>وكيلك في إسطنبول — نشتري من المصانع لك.</p></div>
+ <div><h4>روابط</h4><ul style="line-height:2.2">
+ <li><a href="index.html">الرئيسية</a></li>
+ <li><a href="catalog.html">الكتالوج</a></li>
+ <li><a href="about.html">من نحن</a></li>
+ <li><a href="contact.html">تواصل</a></li>
+ </ul></div>
+ <div><h4>تواصل</h4><p>واتساب: <a href="https://wa.me/905334491040">+90 533 449 10 40</a><br/>إسطنبول، تركيا 34520</p></div>
+ </div>
+ <div class="footer-bottom">
+ <span>© 2026 دريسنجو</span>
+ <a href="admin.html" style="font-size:.8rem;opacity:.6">لوحة الإدارة</a>
+ </div>
 </div>
 </footer>
 <a class="floating-wa" href="https://wa.me/905334491040?text=مرحباً" title="واتساب">💬</a>

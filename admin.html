@@ -7,126 +7,126 @@
 <meta name="description" content="لوحة إدارة محلية لتتبع الطلبات والمخزون. محفوظة على جهازك فقط — لا تشارك الرابط."/>
 <link rel="stylesheet" href="assets/style.css"/>
 <style>
-  .admin-notice{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:14px 18px;margin-bottom:24px;font-size:.9rem;color:#7a5c00}
-  .admin-tabs{display:flex;gap:8px;margin-bottom:24px}
-  .admin-tab{padding:10px 20px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600;font-size:.9rem;transition:all .2s}
-  .admin-tab.active{background:var(--dark);color:#fff;border-color:var(--dark)}
-  .admin-section{display:none}
-  .admin-section.active{display:block}
-  .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
-  .stat-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center}
-  .stat-card .num{font-size:2rem;font-weight:800;color:var(--gold)}
-  .stat-card .lbl{font-size:.82rem;color:var(--muted);margin-top:4px}
-  @media(max-width:700px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
+.admin-notice{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:14px 18px;margin-bottom:24px;font-size:.9rem;color:#7a5c00}
+.admin-tabs{display:flex;gap:8px;margin-bottom:24px}
+.admin-tab{padding:10px 20px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600;font-size:.9rem;transition:all.2s}
+.admin-tab.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.admin-section{display:none}
+.admin-section.active{display:block}
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center}
+.stat-card.num{font-size:2rem;font-weight:800;color:var(--gold)}
+.stat-card.lbl{font-size:.82rem;color:var(--muted);margin-top:4px}
+ @media(max-width:700px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 <header class="header">
 <div class="container">
-  <a href="index.html" class="logo">DRÉSSINGO</a>
-  <button id="menu-toggle" class="menu-toggle" aria-label="القائمة">☰</button>
-  <nav id="main-nav" class="nav">
-    <a href="catalog.html">الكتالوج</a>
-    <a href="winter.html">الشتوي</a>
-    <a href="lingerie.html">اللانجري</a>
-    <a href="underwear.html">الداخلية</a>
-    <a href="pajama.html">البيجاما</a>
-    <a href="about.html">من نحن</a>
-    <a href="contact.html">تواصل</a>
-    <a href="blog.html">المدونة</a>
-  </nav>
-  <div class="header-actions">
-    <a class="btn btn-outline btn-sm" href="index.html">→ الرئيسية</a>
-  </div>
+ <a href="index.html" class="logo">DRESSINGO</a>
+ <button id="menu-toggle" class="menu-toggle" aria-label="القائمة">☰</button>
+ <nav id="main-nav" class="nav">
+ <a href="catalog.html">الكتالوج</a>
+ <a href="winter.html">الشتوي</a>
+ <a href="lingerie.html">اللانجري</a>
+ <a href="underwear.html">الداخلية</a>
+ <a href="pajama.html">البيجاما</a>
+ <a href="about.html">من نحن</a>
+ <a href="contact.html">تواصل</a>
+ <a href="blog.html">المدونة</a>
+ </nav>
+ <div class="header-actions">
+ <a class="btn btn-outline btn-sm" href="index.html">→ الرئيسية</a>
+ </div>
 </div>
 </header>
 
 <section class="inner-page">
 <div class="container" style="max-width:1100px">
-  <a class="back-link" href="index.html">→ الرئيسية</a>
-  <h1 class="section-title">لوحة الإدارة</h1>
+ <a class="back-link" href="index.html">→ الرئيسية</a>
+ <h1 class="section-title">لوحة الإدارة</h1>
 
-  <div class="admin-notice">
-    ⚠️ <strong>تنبيه:</strong> هذه لوحة إدارة محلية تعمل على جهازك فقط. جميع البيانات محفوظة في localStorage ولا تُرفع لأي خادم. <strong>لا تشارك الرابط</strong> مع أي شخص. مزامنة متعددة الأجهزة ستحتاج Backend مستقبلاً.
-  </div>
+ <div class="admin-notice">
+ ⚠️ <strong>تنبيه:</strong> هذه لوحة إدارة محلية تعمل على جهازك فقط. جميع البيانات محفوظة في localStorage ولا تُرفع لأي خادم. <strong>لا تشارك الرابط</strong> مع أي شخص. مزامنة متعددة الأجهزة ستحتاج Backend مستقبلاً.
+ </div>
 
-  <div class="admin-tabs">
-    <button class="admin-tab active" data-tab="orders">الطلبات</button>
-    <button class="admin-tab" data-tab="stock">المخزون</button>
-  </div>
+ <div class="admin-tabs">
+ <button class="admin-tab active" data-tab="orders">الطلبات</button>
+ <button class="admin-tab" data-tab="stock">المخزون</button>
+ </div>
 
-  <!-- ORDERS TAB -->
-  <div id="tab-orders" class="admin-section active">
-    <div class="stat-cards">
-      <div class="stat-card"><div class="num" id="stat-total">٠</div><div class="lbl">إجمالي الطلبات</div></div>
-      <div class="stat-card"><div class="num" id="stat-new">٠</div><div class="lbl">جديد</div></div>
-      <div class="stat-card"><div class="num" id="stat-shipped">٠</div><div class="lbl">تم الشحن</div></div>
-      <div class="stat-card"><div class="num" id="stat-cancelled">٠</div><div class="lbl">ملغي</div></div>
-    </div>
-    <div class="contact-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <h3 style="margin:0">سجل الطلبات</h3>
-        <div style="display:flex;gap:8px">
-          <button id="export-orders" class="btn btn-sm btn-outline">تصدير CSV</button>
-          <button id="clear-orders" class="btn btn-sm" style="background:var(--red);color:#fff">مسح الكل</button>
-        </div>
-      </div>
-      <div style="overflow-x:auto">
-        <table class="admin-table">
-          <thead><tr><th>التاريخ</th><th>الاسم</th><th>الجوال</th><th>الدولة</th><th>المدينة</th><th>المنتجات</th><th>الحالة</th><th>الإجمالي</th></tr></thead>
-          <tbody id="orders-table"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+ <!-- ORDERS TAB -->
+ <div id="tab-orders" class="admin-section active">
+ <div class="stat-cards">
+ <div class="stat-card"><div class="num" id="stat-total">٠</div><div class="lbl">إجمالي الطلبات</div></div>
+ <div class="stat-card"><div class="num" id="stat-new">٠</div><div class="lbl">جديد</div></div>
+ <div class="stat-card"><div class="num" id="stat-shipped">٠</div><div class="lbl">تم الشحن</div></div>
+ <div class="stat-card"><div class="num" id="stat-cancelled">٠</div><div class="lbl">ملغي</div></div>
+ </div>
+ <div class="contact-card">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+ <h3 style="margin:0">سجل الطلبات</h3>
+ <div style="display:flex;gap:8px">
+ <button id="export-orders" class="btn btn-sm btn-outline">تصدير CSV</button>
+ <button id="clear-orders" class="btn btn-sm" style="background:var(--red);color:#fff">مسح الكل</button>
+ </div>
+ </div>
+ <div style="overflow-x:auto">
+ <table class="admin-table">
+ <thead><tr><th>التاريخ</th><th>الاسم</th><th>الجوال</th><th>الدولة</th><th>المدينة</th><th>المنتجات</th><th>الحالة</th><th>الإجمالي</th></tr></thead>
+ <tbody id="orders-table"></tbody>
+ </table>
+ </div>
+ </div>
+ </div>
 
-  <!-- STOCK TAB -->
-  <div id="tab-stock" class="admin-section">
-    <div class="contact-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <h3 style="margin:0">تتبع المخزون (بالدزاين)</h3>
-        <button id="export-stock" class="btn btn-sm btn-outline">تصدير CSV</button>
-      </div>
-      <p style="color:var(--muted);font-size:.85rem;margin-bottom:16px">أدخل الكمية المتاحة لكل كود. الأكواد ذات المخزون أقل من ١٠ دزينة يُعلام بتحذير.</p>
-      <div style="overflow-x:auto">
-        <table class="admin-table">
-          <thead><tr><th>الكود</th><th>الكمية (دزينة)</th><th>الحالة</th></tr></thead>
-          <tbody id="stock-body"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+ <!-- STOCK TAB -->
+ <div id="tab-stock" class="admin-section">
+ <div class="contact-card">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+ <h3 style="margin:0">تتبع المخزون (بالدزاين)</h3>
+ <button id="export-stock" class="btn btn-sm btn-outline">تصدير CSV</button>
+ </div>
+ <p style="color:var(--muted);font-size:.85rem;margin-bottom:16px">أدخل الكمية المتاحة لكل كود. الأكواد ذات المخزون أقل من ١٠ دزينة يُعلام بتحذير.</p>
+ <div style="overflow-x:auto">
+ <table class="admin-table">
+ <thead><tr><th>الكود</th><th>الكمية (دزينة)</th><th>الحالة</th></tr></thead>
+ <tbody id="stock-body"></tbody>
+ </table>
+ </div>
+ </div>
+ </div>
 </div>
 </section>
 
 <footer class="footer">
 <div class="container">
-  <div class="footer-bottom" style="justify-content:center">
-    <span>© 2025 دريسنجو — لوحة الإدارة المحلية</span>
-  </div>
+ <div class="footer-bottom" style="justify-content:center">
+ <span>© 2026 دريسنجو — لوحة الإدارة المحلية</span>
+ </div>
 </div>
 </footer>
 
 <script src="assets/app.js"></script>
 <script>
 ;(function(){
-  // tabs
-  document.querySelectorAll('.admin-tab').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.admin-tab').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-    });
-  });
-  // clear orders
-  document.getElementById('clear-orders').addEventListener('click',()=>{
-    if(confirm('هل أنت متأكد من مسح جميع الطلبات؟')){
-      localStorage.setItem('dressingo_orders','[]');
-      initAdminPage();
-    }
-  });
-  window.initAdminPage();
+ // tabs
+ document.querySelectorAll('.admin-tab').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+ document.querySelectorAll('.admin-tab').forEach(b=>b.classList.remove('active'));
+ document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+ btn.classList.add('active');
+ document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+ });
+ });
+ // clear orders
+ document.getElementById('clear-orders').addEventListener('click',()=>{
+ if(confirm('هل أنت متأكد من مسح جميع الطلبات؟')){
+ localStorage.setItem('dressingo_orders','[]');
+ initAdminPage();
+ }
+ });
+ window.initAdminPage();
 })();
 </script>
 </body>
