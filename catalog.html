@@ -43,7 +43,6 @@
  <button class="filter-btn" data-cat="lingerie">لانجري وأطقم</button>
  <button class="filter-btn" data-cat="underwear">ملابس داخلية وقطنيات</button>
  <button class="filter-btn" data-cat="pajama">بيجاما وهوم وير</button>
- <button class="filter-btn" data-cat="lingerie">لانجري (٢٢٢ كود)</button>
  <button class="filter-btn" data-cat="anil">ANIL</button>
  </div>
  <a href="lingerie-2025.html" style="display:block;background:#1F1B16;color:#F5EFE3;border-radius:16px;padding:26px 22px;margin:26px 0;text-decoration:none">
@@ -51,6 +50,22 @@
    <div style="opacity:.85;line-height:1.7">١٥ تصنيف: أطقم قصيرة وطويلة · بيجاما · جارتية · براليت · إيروتيك<br>بأكواد وصور وفلتر لكل تصنيف</div>
    <div style="margin-top:14px;color:#F2B544;font-weight:700">تصفّح الكتالوج ←</div>
  </a>
+
+ <div class="catlink-row" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:22px 0">
+  <a href="#catalog-grid" data-jump="winter" class="jump-chip">❄️ شتوي <b id="n-winter"></b></a>
+  <a href="#catalog-grid" data-jump="lingerie" class="jump-chip">👙 لانجري <b id="n-lingerie"></b></a>
+  <a href="#catalog-grid" data-jump="underwear" class="jump-chip">🩲 داخلي <b id="n-underwear"></b></a>
+  <a href="#catalog-grid" data-jump="anil" class="jump-chip">🏷️ ANIL <b id="n-anil"></b></a>
+  <a href="#catalog-grid" data-jump="pajama" class="jump-chip">🌙 بيجاما <b id="n-pajama"></b></a>
+ </div>
+ <div class="search-row" style="margin:6px 0 14px;display:flex;gap:10px">
+  <input id="q" placeholder="ابحث بالكود أو الاسم… مثال: 772 أو ساتان" style="flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-family:inherit"/>
+ </div>
+ <div class="trust-row" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 18px">
+  <div class="trust"><b>✅ فحص جودة</b><span>كل قطعة مفحوصة قبل الشحن</span></div>
+  <div class="trust"><b>📦 تجميع شحنات</b><span>نجمع طلبك بشحنة واحدة</span></div>
+  <div class="trust"><b>💬 واتساب مباشر</b><span>رد خلال ساعات العمل</span></div>
+ </div>
 
  <div class="catalog-toolbar">
  <span class="results-count" id="results-count"></span>
@@ -88,18 +103,31 @@
  const grid=document.getElementById('catalog-grid');
  const cnt=document.getElementById('results-count');
  if(!grid)return;
- function render(filter){
+ function render(filter,term){
  grid.innerHTML='';
- const items=data.filter(p=>!filter||p.cat===filter);
+ const items=data.filter(p=>(!filter||p.cat===filter)&&(!term||p.code.includes(term)||p.name.includes(term)||(p.fabric||'').includes(term)));
  cnt.textContent=items.length+' منتج';
  items.forEach(p=>{
  const card=document.createElement('article');
  card.className='prod-card';card.dataset.cat=p.cat;
- card.innerHTML=`<a href="${p.cat}.html#p-${p.code}"><div class="thumb"><img src="assets/img/${p.img}" alt="${p.name}" loading="lazy"/></div><div class="info"><div class="code">${p.code}</div><div class="name">${p.name}</div><div class="sizes">${p.sizes}${p.fabric?' · '+p.fabric:''}${p.kind?' · '+p.kind:''}</div><div class="actions"><button class="btn btn-sm btn-whatsapp" onclick="addToOrder('${p.code}','${p.name}','${p.sizes}')">أضف للطلب</button><a class="btn btn-sm btn-outline" href="${p.cat}.html#p-${p.code}">عرض</a></div></div></a>`;
+ card.innerHTML=`<a href="${p.cat}.html#p-${p.code}"><div class="thumb"><img src="${p.img.indexOf('/')>-1?'assets/'+p.img:'assets/img/'+p.img}" alt="${p.name}" loading="lazy"/></div><div class="info"><div class="code">${p.code}</div><div class="name">${p.name}</div><div class="sizes">${p.sizes}${p.fabric?' · '+p.fabric:''}${p.kind?' · '+p.kind:''}</div><div class="actions"><button class="btn btn-sm btn-whatsapp" data-code="${p.code}" data-name="${p.name.replace(/"/g,'')}" data-sizes="${p.sizes}" onclick="addToOrder(this.dataset.code,this.dataset.name,this.dataset.sizes)">أضف للطلب</button><a class="btn btn-sm btn-outline" href="${p.cat}.html#p-${p.code}">عرض</a></div></div></a>`;
  grid.appendChild(card);
  });
  }
  render('all');
+ counts();
+ function counts(){const c={};data.forEach(p=>c[p.cat]=(c[p.cat]||0)+1);
+   const pairs=[['winter','n-winter'],['lingerie','n-lingerie'],['underwear','n-underwear'],['pajama','n-pajama'],['anil','n-anil']];
+   pairs.forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.textContent='('+(c[k]||0)+')';});}
+ const q=document.getElementById('q');
+ function apply(){const f=document.querySelector('.filter-btn.active')?.dataset.cat;
+   const term=(q?.value||'').trim(); render(f==='all'?null:f,term);}
+ if(q)q.addEventListener('input',apply);
+ document.querySelectorAll('[data-jump]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();
+   document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+   const btn=document.querySelector('.filter-btn[data-cat="'+a.dataset.jump+'"]');
+   if(btn)btn.classList.add('active'); apply();
+   document.getElementById('catalog-grid').scrollIntoView({behavior:'smooth'});}));
  document.querySelectorAll('.filter-btn').forEach(b=>{
  b.addEventListener('click',()=>render(b.dataset.cat==='all'?null:b.dataset.cat));
  });

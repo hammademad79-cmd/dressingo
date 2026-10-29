@@ -178,3 +178,4 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
   .order-line{grid-template-columns:1fr 1fr;gap:8px}
   .order-line>*:nth-child(1),.order-line>*:nth-child(3),.order-line>*:nth-child(5){grid-column:auto}
 }
+@media(max-width:900px){.catlink-row{grid-template-columns:1fr 1fr!important}}
