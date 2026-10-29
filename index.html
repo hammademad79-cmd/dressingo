@@ -122,11 +122,17 @@
 <section class="hero">
 <div class="container">
  <div class="hero-text">
- <h1>وكيلك في إسطنبول<br/><span style="color:var(--gold)">من المصنع إلى بابك</span></h1>
- <p>أنت تختار من الكتالوج أو ترسل لنا الصور والمواصفات. نحن في إسطنبول — في مرتر، عثمان‌بيك، زتيون‌بورنو، لاليه، باغجلر، إيشتشي — نبحث عن المصنع المناسب، نتفاوض بالسعر، نفحص الجودة، ونجمع طلبك في شحنة واحدة. كل ما عليك هو الانتظار حتى يصل إلى بابك.</p>
+ <div class="eyebrow" style="display:inline-block;background:rgba(212,175,55,.15);color:var(--gold);border:1px solid var(--gold);border-radius:20px;padding:6px 14px;font-size:.8rem;font-weight:700;margin-bottom:14px">جملة B2B من إسطنبول إلى العالم العربي</div>
+ <h1>كتالوج واحد. ٥٥٢ موديل.<br/><span style="color:var(--gold)">من المصنع إلى باب محلك.</span></h1>
+ <p>لانجري · بيجاما · داخلي · شتوي وهوم وير — كل موديل بكود وصورة ومقاسات واضحة. اختر من الموقع أو أرسل صورك، نتفاوض مع المصنع، نفحص الجودة، ونشحن لبابك.</p>
+ <div class="hero-stats" style="display:flex;gap:26px;margin:18px 0 22px;flex-wrap:wrap">
+  <div><b style="font-size:1.25rem">٥٥٢</b><br/><span style="color:#ccc;font-size:.82rem">موديل بالأكواد</span></div>
+  <div><b style="font-size:1.25rem">٤</b><br/><span style="color:#ccc;font-size:.82rem">فئات رئيسية</span></div>
+  <div><b style="font-size:1.25rem">+٩</b><br/><span style="color:#ccc;font-size:.82rem">دولة نشحن لها</span></div>
+ </div>
  <div style="display:flex;gap:12px;flex-wrap:wrap">
- <a class="btn" href="catalog.html">تصفح الكتالوج</a>
- <a class="btn btn-outline" href="order.html">بدء طلب</a>
+ <a class="btn" href="catalog.html">تصفح الكتالوج الكامل</a>
+ <a class="btn btn-outline" href="order.html">اطلب عبر واتساب</a>
  </div>
  </div>
  <div class="hero-img"><img src="assets/img/winter-c841-009.jpg" alt="أطقم شتوية من كتالوج دريسنجو"/></div>
@@ -150,24 +156,19 @@
 <div class="container">
  <h2 class="section-title">الأقسام المتاحة</h2>
  <p class="section-sub">تصفح حسب الفئة لتصل إلى ما تحتاجه بسرعة</p>
- <div class="cat-grid">
- <a href="winter.html" class="cat-card">
- <img src="assets/img/winter-c841-001.jpg" alt="أطقم شتوية"/>
- <div class="label">نسائي شتوي · كتالوج ٢٠٢٦-٢٠٢٧</div>
- </a>
- <a href="lingerie.html" class="cat-card">
- <img src="assets/img/lingerie-31892.jpg" alt="لانجري وأطقم"/>
- <div class="label">لانجري وأطقم · تشكيلة جديدة</div>
- </a>
- <a href="underwear.html" class="cat-card">
- <img src="assets/img/underwear-2001-a.jpg" alt="ملابس داخلية وقطنيات"/>
- <div class="label">ملابس داخلية وقطنيات · Since 1958</div>
- </a>
- <a href="pajama.html" class="cat-card">
- <img src="assets/img/pajama-901.jpg" alt="بيجاما وهوم وير"/>
- <div class="label">بيجاما وهوم وير · ٢٠٢٥</div>
- </a>
- </div>
+ <div class="cat-grid" id="home-cats"></div>
+<script>
+(function(){fetch('assets/products-data.js').then(r=>r.text()).then(js=>{
+const m=js.match(/window\.__DR_PRODUCTS__\s*=\s*(\[.*\])/s);const data=JSON.parse(m[1]);
+const cfg={winter:['❄️','شتوي وهوم وير','winter.html'],lingerie:['👙','لانجري وأطقم','catalog.html'],underwear:['🩲','داخلي وقطنيات','underwear.html'],pajama:['🌙','بيجاما وهوم وير','pajama.html'],anil:['🏷️','ANIL','catalog.html']};
+const first={};data.forEach(p=>{if(!first[p.cat])first[p.cat]=p;});
+const C={winter:0,lingerie:0,underwear:0,pajama:0,anil:0};data.forEach(p=>{if(C[p.cat]!==undefined)C[p.cat]++;});
+const grid=document.getElementById('home-cats');
+Object.keys(cfg).forEach(k=>{const p=first[k];if(!p)return;
+const img=p.img.includes('/')?'assets/'+p.img:'assets/img/'+p.img;
+grid.insertAdjacentHTML('beforeend',`<a href="${cfg[k][2]}" class="cat-card"><img loading="lazy" src="${img}" alt="${cfg[k][1]}"/><div class="label">${cfg[k][0]} ${cfg[k][1]} · ${C[k]} موديل</div></a>`);});
+});})();
+</script>
 </div>
 </section>
 
