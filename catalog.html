@@ -56,8 +56,7 @@
   <div class="flt"><h3>الموسم</h3><div class="chips" id="f-season"></div></div>
  </div>
  <div class="flt" id="box-aud" style="display:none"><h3>نسائي</h3><div class="chips" id="f-aud"></div></div>
- <div class="flt"><h3>الماركة <span style="font-weight:400;font-size:.78rem;color:#999">(شارة وفلتر فقط)</span></h3><div class="chips" id="f-brand"></div></div>
- <div class="prod-grid" id="catalog-grid"></div>
+  <div class="prod-grid" id="catalog-grid"></div>
 </div></section>
 <footer class="footer"><div class="container">
  <div class="footer-grid"><div><h4>DRESSINGO</h4><p>جملة من إسطنبول.</p></div>
@@ -75,16 +74,15 @@ var grid=document.getElementById('catalog-grid'),cnt=document.getElementById('re
 var SUBS={women:[['daily','👕 يومي'],['home','🏠 منزلي'],['lingerie','👙 لانجري']],men:[['daily','👕 يومي'],['pajama','🌙 بيجاما'],['underwear','🩲 داخلي']],kids:[['daily','👕 يومي'],['home','🏠 منزلي'],['lingerie','🎀 لانجري']]};
 var SUB_L={daily:'يومي',home:'منزلي',lingerie:'لانجري',pajama:'بيجاما',underwear:'داخلي'};
 var DEPT_L={women:'نسائي',men:'رجالي',kids:'أطفال'};
-var S={dept:'all',sub:'all',season:'all',aud:'all',brand:'all',q:''};
-function qs(){try{var u=new URL(location.href);['dept','sub','season','aud','brand'].forEach(function(k){if(u.searchParams.get(k))S[k]=u.searchParams.get(k);});if(u.searchParams.get('q')){S.q=u.searchParams.get('q');document.getElementById('q').value=S.q;}}catch(e){}}
+var S={dept:'all',sub:'all',season:'all',aud:'all',q:''};
+function qs(){try{var u=new URL(location.href);['dept','sub','season','aud'].forEach(function(k){if(u.searchParams.get(k))S[k]=u.searchParams.get(k);});if(u.searchParams.get('q')){S.q=u.searchParams.get('q');document.getElementById('q').value=S.q;}}catch(e){}}
 qs();
 function pass(p,k,v){
  if(v==='all')return true;
  if(k==='dept')return p.dept===v;
  if(k==='sub')return (p.sub||p.func)===v;
  if(k==='season')return p.season===v;
- if(k==='brand')return p.brand===v;
- if(k==='aud')return (p.audience||'standard')===v;
+  if(k==='aud')return (p.audience||'standard')===v;
  return true;
 }
 function filtered(ignore){
@@ -118,11 +116,7 @@ function renderFilters(){
  chips('f-season',[{v:'all',l:'الكل'},{v:'summer',l:'☀️ صيفي'},{v:'winter',l:'❄️ شتوي'}],S.season,function(v){S.season=v;},{all:se.length,summer:sec.summer||0,winter:sec.winter||0});
  document.getElementById('box-aud').style.display=(S.dept==='women')?'':'none';
  if(S.dept==='women'){var ab=filtered('aud'),ac=counts(ab,function(p){return p.audience||'standard';});chips('f-aud',[{v:'all',l:'الكل'},{v:'standard',l:'عادي'},{v:'maternity',l:'حوامل'}],S.aud,function(v){S.aud=v;},{all:ab.length,standard:ac.standard||0,maternity:ac.maternity||0});}
- var bb=filtered('brand'),bc=counts(bb,function(p){return p.brand;});
- var brands=[{v:'all',l:'الكل'}];['ANIL','ERDENİZ','شتوي ٢٠٢٦','Dressingo'].forEach(function(b){if(bc[b])brands.push({v:b,l:b});});
- var bm={all:bb.length};Object.keys(bc).forEach(function(k){bm[k]=bc[k];});
- chips('f-brand',brands,S.brand,function(v){S.brand=v;},bm);
-}
+ }
 function imgFor(p){var im=p.img||'';return /^assets\//.test(im)?im:'assets/'+im;}
 function render(){
  renderFilters();
@@ -137,14 +131,14 @@ function render(){
   var seaL=p.season==='winter'?'❄ شتوي':'☀ صيفي';
   card.innerHTML='<div class="thumb"><img src="'+imgFor(p)+'" alt="'+(p.name||'')+' — كود '+p.code+'" loading="lazy"/></div>'
   +'<div class="info"><div class="codebox">كود <b>'+p.code+'</b></div><div class="name">'+(p.name||'')+'</div>'
-  +'<div class="meta"><span class="tag">'+(DEPT_L[p.dept]||p.dept)+'</span><span class="tag">'+subL+'</span><span class="tag">'+seaL+'</span>'+(p.brand?'<span class="tag">'+p.brand+'</span>':'')+((p.audience)==='maternity'?'<span class="tag">حوامل</span>':'')+'</div>'
+  +'<div class="meta"><span class="tag">'+(DEPT_L[p.dept]||p.dept)+'</span><span class="tag">'+subL+'</span><span class="tag">'+seaL+'</span>'+((p.audience)==='maternity'?'<span class="tag">حوامل</span>':'')+'</div>'
   +'<div class="sizes">'+(p.sizes||'')+(det?' · '+det:'')+'</div><div class="noprice">السعر واتساب حسب الكمية 💬</div>'
   +'<div class="actions"><button class="btn btn-sm btn-whatsapp" data-code="'+p.code+'" onclick="addToOrder(this.dataset.code,\''+(p.name||'').replace(/'/g,'')+'\',\''+(p.sizes||'')+'\')">أضف للطلب</button>'
   +'<a class="btn btn-sm btn-outline" target="_blank" rel="noopener" href="https://wa.me/905334491040?text='+encodeURIComponent('مرحباً، بدي أسأل عن الكود '+p.code)+'">واتساب</a></div></div>';
   grid.appendChild(card);
  });
  if(items.length>300){var m=document.createElement('p');m.style.cssText='grid-column:1/-1;text-align:center;color:#888';m.textContent='عرض 300 من '+items.length+' — ضيّق الفلتر أو ابحث بالكود';grid.appendChild(m);}
- try{var u=new URL(location.href);['dept','sub','season','aud','brand'].forEach(function(k){if(S[k]&&S[k]!=='all')u.searchParams.set(k,S[k]);else u.searchParams.delete(k);});history.replaceState(null,'',u.toString());}catch(e){}
+ try{var u=new URL(location.href);['dept','sub','season','aud'].forEach(function(k){if(S[k]&&S[k]!=='all')u.searchParams.set(k,S[k]);else u.searchParams.delete(k);});history.replaceState(null,'',u.toString());}catch(e){}
 }
 document.getElementById('q').addEventListener('input',function(e){S.q=e.target.value;render();});
 render();
