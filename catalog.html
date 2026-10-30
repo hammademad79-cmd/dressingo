@@ -71,8 +71,8 @@
 ;(function(){
 var data=(window.__DR_PRODUCTS__||[]).slice();
 var grid=document.getElementById('catalog-grid'),cnt=document.getElementById('results-count');
-var SUBS={women:[['daily','👕 يومي'],['home','🏠 منزلي'],['lingerie','👙 لانجري']],men:[['daily','👕 يومي'],['pajama','🌙 بيجاما'],['underwear','🩲 داخلي']],kids:[['daily','👕 يومي'],['home','🏠 منزلي'],['lingerie','🎀 لانجري']]};
-var SUB_L={daily:'يومي',home:'منزلي',lingerie:'لانجري',pajama:'بيجاما',underwear:'داخلي'};
+var SUBS={women:[['daily','👕 يومي'],['home','🏠 منزلي'],['lingerie','👙 لانجري'],['underwear','🩲 داخلي']],men:[['pajama','🌙 بيجاما'],['underwear','🩲 داخلي']],kids:[['daily','👕 يومي'],['home','🏠 منزلي'],['lingerie','🎀 لانجري']]};
+var SUB_L={underwear:'🩲 داخلي',daily:'يومي',home:'منزلي',lingerie:'لانجري',pajama:'بيجاما'};
 var DEPT_L={women:'نسائي',men:'رجالي',kids:'أطفال'};
 var S={dept:'all',sub:'all',season:'all',aud:'all',q:''};
 function qs(){try{var u=new URL(location.href);['dept','sub','season','aud'].forEach(function(k){if(u.searchParams.get(k))S[k]=u.searchParams.get(k);});if(u.searchParams.get('q')){S.q=u.searchParams.get('q');document.getElementById('q').value=S.q;}}catch(e){}}
@@ -107,7 +107,7 @@ function renderFilters(){
  var bd=filtered('dept'),dc=counts(bd,function(p){return p.dept;});
  chips('f-dept',[{v:'all',l:'الكل'},{v:'women',l:'👩 نسائي'},{v:'men',l:'👔 رجالي'},{v:'kids',l:'🧒 أطفال'}],S.dept,function(v){S.dept=v;S.sub='all';S.aud='all';},{all:bd.length,women:dc.women||0,men:dc.men||0,kids:dc.kids||0});
  var sb=filtered('sub');
- var subs=(S.dept==='all')?['daily','home','lingerie','pajama','underwear']:(SUBS[S.dept]||[]).map(function(x){return x[0];});
+ var subs=(S.dept==='all')?['daily','home','lingerie','underwear','pajama']:(SUBS[S.dept]||[]).map(function(x){return x[0];});
  var sc=counts(sb,function(p){return p.sub||p.func;});
  var opts=[{v:'all',l:'الكل'}];subs.forEach(function(s){opts.push({v:s,l:SUB_L[s]||s});});
  var lmap={all:sb.length};Object.keys(sc).forEach(function(k){lmap[k]=sc[k];});
