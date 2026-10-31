@@ -117,7 +117,7 @@ function renderFilters(){
  document.getElementById('box-aud').style.display=(S.dept==='women')?'':'none';
  if(S.dept==='women'){var ab=filtered('aud'),ac=counts(ab,function(p){return p.audience||'standard';});chips('f-aud',[{v:'all',l:'الكل'},{v:'standard',l:'عادي'},{v:'maternity',l:'حوامل'}],S.aud,function(v){S.aud=v;},{all:ab.length,standard:ac.standard||0,maternity:ac.maternity||0});}
  }
-function imgFor(p){var im=p.img||'';return /^assets\//.test(im)?im:'assets/'+im;}
+function imgFor(p){var im=p.img||'';if(!im)return '';return /^assets\//.test(im)?im:'assets/'+im;}
 function render(){
  renderFilters();
  var items=filtered(null);
@@ -129,7 +129,7 @@ function render(){
   var det=((p.fabric||'').split('|')[0]||'').trim();
   var subL=SUB_L[p.sub||p.func]||(p.sub||p.func);
   var seaL=p.season==='winter'?'❄ شتوي':'☀ صيفي';
-  card.innerHTML='<div class="thumb"><img src="'+imgFor(p)+'" alt="'+(p.name||'')+' — كود '+p.code+'" loading="lazy"/></div>'
+  card.innerHTML='<div class="thumb">'+(imgFor(p)?'<img src="'+imgFor(p)+'" alt="'+(p.name||'')+' — كود '+p.code+'" loading="lazy"/>':'<div class="noimg">كود '+p.code+'<br/><span>الصورة قريباً</span></div>')+'</div>'
   +'<div class="info"><div class="codebox">كود <b>'+p.code+'</b></div><div class="name">'+(p.name||'')+'</div>'
   +'<div class="meta"><span class="tag">'+(DEPT_L[p.dept]||p.dept)+'</span><span class="tag">'+subL+'</span><span class="tag">'+seaL+'</span>'+((p.audience)==='maternity'?'<span class="tag">حوامل</span>':'')+'</div>'
   +'<div class="sizes">'+(p.sizes||'')+(det?' · '+det:'')+'</div><div class="noprice">السعر واتساب حسب الكمية 💬</div>'

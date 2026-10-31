@@ -200,3 +200,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
 .prod-card .sizes{font-size:.78rem;color:var(--muted)}
 .prod-card .actions{display:flex;gap:8px;margin-top:4px}
 @media(max-width:900px){.prod-grid{grid-template-columns:repeat(2,1fr)}.catlink-row{grid-template-columns:1fr 1fr!important}.trust-row{grid-template-columns:1fr!important}}
+
+/* no-photo placeholder card */
+.prod-card .noimg{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:220px;background:#f4f1ea;color:#1F1B16;font-weight:800;font-size:1rem}
+.prod-card .noimg span{font-size:.8rem;color:#8a7a5e;font-weight:400}
