@@ -66,12 +66,32 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gd);border-color
 
 <section id="v-login" class="hide">
  <h1>أهلاً عماد 👋</h1>
- <p>هاي الصفحة بتخليك تعدّل الموقع من تلفونك. أول مرة بس، لازم تحط «المفتاح» (توكن من GitHub). بينحفظ على هالتلفون بس، وما حدا بيقدر يعدّل بدونه.</p>
+ <p>اكتب كلمة السر لتفتح صفحة التعديل.</p>
+ <label for="pw">كلمة السر</label>
+ <input id="pw" type="password" dir="ltr" autocomplete="current-password" autocapitalize="off" spellcheck="false">
+ <label class="check"><input type="checkbox" id="pw-rem"> تذكرني على هالتلفون</label>
+ <button type="button" class="big pri" id="b-pw">دخول</button>
+ <p class="mu">بدون «تذكرني» بتضل داخل لحد ما تسكّر الصفحة.</p>
+ <p style="margin-top:28px"><a href="#" id="show-paste" class="mu" style="color:var(--mu)">عندي مفتاح GitHub (طريقة تانية)</a></p>
+ <div id="paste-box" class="hide card">
  <a class="btn big" id="mk-token" href="https://github.com/settings/personal-access-tokens/new?name=dressingo-editor&amp;description=Dressingo%20site%20editor%20(dressingo%20repo%20only)&amp;expires_in=none&amp;contents=write" target="_blank" rel="noopener noreferrer">🔑 اعمل مفتاح جديد على GitHub</a>
  <p class="mu">بالصفحة اللي بتفتح: عند Repository access اختار Only select repositories ← dressingo، وتأكد إنو Contents = Read and write، بعدين Generate token وانسخه.</p>
  <label for="tok">الصق المفتاح هون <small>(بيبلّش بـ github_pat_)</small></label>
  <input id="tok" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…">
- <button type="button" class="big pri" id="b-login">✅ حفظ ودخول</button>
+ <button type="button" class="big" id="b-login">✅ حفظ ودخول</button>
+ </div>
+</section>
+
+<section id="v-pw" class="hide">
+ <h1>🔒 تغيير كلمة السر</h1>
+ <label for="pw-old">كلمة السر الحالية</label>
+ <input id="pw-old" type="password" dir="ltr" autocomplete="current-password" autocapitalize="off" spellcheck="false">
+ <label for="pw-new">كلمة السر الجديدة <small>(10 أحرف أو أكتر)</small></label>
+ <input id="pw-new" type="password" dir="ltr" autocomplete="new-password" autocapitalize="off" spellcheck="false">
+ <label for="pw-new2">كلمة السر الجديدة مرة تانية</label>
+ <input id="pw-new2" type="password" dir="ltr" autocomplete="new-password" autocapitalize="off" spellcheck="false">
+ <button type="button" class="big pri" id="b-pw-save">✅ غيّر كلمة السر</button>
+ <p class="mu">نصيحة: خليها طويلة وما بتنحزر (مثلاً كلمتين ورقم). لا تبعتها لحدا.</p>
 </section>
 
 <section id="v-home" class="hide home">
@@ -83,7 +103,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gd);border-color
  <p class="mu" id="home-info"></p>
  <p><a href="../" target="_blank" rel="noopener">🌐 افتح الموقع</a></p>
  <p class="mu">كل حفظ بيطلع عالموقع خلال دقيقة أو دقيقتين.</p>
- <button type="button" class="sm ghost" id="b-logout">🚪 خروج (امسح المفتاح من هالتلفون)</button>
+ <button type="button" class="big" data-go="pw">🔒 تغيير كلمة السر</button>
+ <button type="button" class="sm ghost" id="b-logout">🚪 خروج</button>
 </section>
 
 <section id="v-form" class="hide">

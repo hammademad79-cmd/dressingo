@@ -4,7 +4,8 @@ var OWNER="hammademad79-cmd",REPO="dressingo",BR="main",TK="dz_editor_token_v1";
 var API=window.DZ_API||"https://api.github.com";
 var RP="/repos/"+OWNER+"/"+REPO;
 var CAT_PATH="data/catalog.json",SITE_PATH="data/site.json";
-var token="";try{token=localStorage.getItem(TK)||""}catch(e){}
+var KJ="k.json",KPATH="e-sb627h5m14ut7srw4rwvpd/k.json";
+var token="";try{token=sessionStorage.getItem(TK)||localStorage.getItem(TK)||""}catch(e){}
 var D=null; // {sha, cat, site}
 var blobUrls={}; // repo path -> local preview url (new photos before the site updates)
 var $=function(id){return document.getElementById(id)};
@@ -13,6 +14,30 @@ function el(tag,attrs,html){var e=document.createElement(tag);if(attrs)for(var k
 function imgSrc(p){return blobUrls[p]||("../"+p)}
 function b64utf8(s){var b=new TextEncoder().encode(s),o="",i;for(i=0;i<b.length;i+=0x8000)o+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(o)}
 function UErr(m){var e=new Error(m);e.user=true;return e}
+
+
+/* ---------- password unlock: the GitHub key is kept encrypted in k.json (PBKDF2-SHA256 + AES-GCM 256) ---------- */
+function u8(b64){var s=atob(b64),o=new Uint8Array(s.length);for(var i=0;i<s.length;i++)o[i]=s.charCodeAt(i);return o}
+function b64u8(a){var o="";for(var i=0;i<a.length;i+=0x8000)o+=String.fromCharCode.apply(null,a.subarray(i,i+0x8000));return btoa(o)}
+function deriveKey(pw,salt,iter){
+ return crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]).then(function(base){
+  return crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+ });
+}
+function decryptKey(k,pw){
+ return deriveKey(pw,u8(k.salt),k.iter).then(function(key){return crypto.subtle.decrypt({name:"AES-GCM",iv:u8(k.iv)},key,u8(k.ct))}).then(function(pt){return new TextDecoder().decode(pt)},function(){throw UErr("❌ كلمة السر غلط. جرّب كمان مرة (انتبه للأحرف الصغيرة والكبيرة).")});
+}
+function encryptKey(tok,pw){
+ var salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),iter=600000;
+ return deriveKey(pw,salt,iter).then(function(key){return crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,new TextEncoder().encode(tok))}).then(function(ct){
+  return JSON.stringify({v:1,kdf:"PBKDF2-SHA256",iter:iter,cipher:"AES-GCM-256",salt:b64u8(salt),iv:b64u8(iv),ct:b64u8(new Uint8Array(ct))},null,1)+"\n";
+ });
+}
+function keepToken(t,remember){
+ try{sessionStorage.setItem(TK,t)}catch(e){}
+ try{if(remember)localStorage.setItem(TK,t);else localStorage.removeItem(TK)}catch(e){}
+}
+function forgetToken(){try{sessionStorage.removeItem(TK)}catch(e){}try{localStorage.removeItem(TK)}catch(e){}}
 
 /* ---------- GitHub API ---------- */
 function api(method,path,body,raw){
@@ -113,7 +138,7 @@ function save(message,mutate,blobs,checkPath){
 }
 
 /* ---------- views ---------- */
-var views=["login","home","form","list","order","texts"],cur="";
+var views=["login","home","form","list","order","texts","pw"],cur="";
 function show(v){views.forEach(function(x){$("v-"+x).classList.toggle("hide",x!==v)});cur=v;$("b-home").classList.toggle("hide",v==="home"||v==="login");window.scrollTo(0,0)}
 $("b-home").onclick=function(){show("home");homeInfo()};
 document.addEventListener("click",function(e){
@@ -125,6 +150,7 @@ function go(v){
  else if(v==="list"){fillCatSelect($("l-cat"),true);renderList(true);show("list")}
  else if(v==="order"){fillCatSelect($("o-cat"),false);loadOrder();show("order")}
  else if(v==="texts"){fillTexts();show("texts")}
+ else if(v==="pw"){show("pw")}
 }
 function cats(){return (D&&D.cat.cats)||[]}
 function catTitle(k){var c=cats().filter(function(c){return c.key===k})[0];return c?c.title:k}
@@ -138,14 +164,46 @@ $("b-login").onclick=function(){
  token=t;busy("عم نتأكد من المفتاح…");
  // a write check that changes nothing on the site: an unreferenced git blob
  api("POST",RP+"/git/blobs",{content:"dressingo-editor-check",encoding:"utf-8"}).then(function(){
-  try{localStorage.setItem(TK,t)}catch(e){}
+  keepToken(t,true);
   $("tok").value="";return start();
  }).then(function(){toast("ok","✅ المفتاح شغّال وانحفظ على هالتلفون. صار فيك تعدّل.",[{t:"يلا",pri:1,f:hideToast}])}).catch(function(e){token="";fail(e)});
 };
-$("b-logout").onclick=function(){if(!confirm("أكيد بدك تمسح المفتاح من هالتلفون؟ رح تحتاج تلصقه من جديد."))return;try{localStorage.removeItem(TK)}catch(e){}token="";D=null;show("login")};
+
+$("b-pw").onclick=function(){
+ var pw=$("pw").value;
+ if(!pw){toast("bad","اكتب كلمة السر أول.",[{t:"تمام",pri:1,f:hideToast}]);return}
+ if(!(window.crypto&&crypto.subtle)){toast("bad","❌ هالمتصفح قديم وما بيدعم فتح القفل. جرّب Chrome أو Safari محدّث.",[{t:"تمام",pri:1,f:hideToast}]);return}
+ busy("عم نفتح القفل…");
+ fetch(KJ+"?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw UErr("❌ ما قدرنا نجيب ملف القفل. تأكد من النت وجرّب كمان مرة.");return r.json()}).then(function(k){return decryptKey(k,pw)}).then(function(t){
+  token=t;keepToken(t,$("pw-rem").checked);$("pw").value="";return start();
+ }).catch(function(e){token="";if(e&&e.user){toast("bad",esc(e.message),[{t:"تمام",pri:1,f:hideToast}]);$("pw").select&&$("pw").select()}else fail(e)});
+};
+$("pw").addEventListener("keydown",function(e){if(e.key==="Enter")$("b-pw").click()});
+$("show-paste").onclick=function(e){e.preventDefault();$("paste-box").classList.toggle("hide")};
+/* change password: decrypt the current k.json from main with the old password, re-encrypt, commit */
+$("b-pw-save").onclick=function(){
+ var o=$("pw-old").value,n1=$("pw-new").value,n2=$("pw-new2").value;
+ function bad(m){toast("bad",m,[{t:"تمام",pri:1,f:hideToast}])}
+ if(!o||!n1||!n2)return bad("❌ عبّي التلات خانات.");
+ if(n1.length<10)return bad("❌ كلمة السر الجديدة لازم تكون 10 أحرف أو أكتر.");
+ if(n1!==n2)return bad("❌ كلمة السر الجديدة مش متطابقة بالخانتين. اكتبها نفسها مرتين.");
+ if(n1===o)return bad("❌ كلمة السر الجديدة نفس القديمة.");
+ busy("عم نغيّر كلمة السر… لا تسكّر الصفحة");
+ var newText=null;
+ commit("Editor: change unlock password",function(f){
+  return api("GET",RP+"/contents/"+KPATH+"?ref="+f.sha,null,true).then(function(txt){return decryptKey(JSON.parse(txt),o)},function(e){if(e.status===404)throw UErr("❌ ما لقينا ملف القفل بالموقع.");throw e}).then(function(t){
+   if(t!==token&&token)throw UErr("❌ المفتاح المحفوظ مش نفس اللي بالقفل. اطلع وادخل من جديد وجرّب.");
+   return encryptKey(t,n1);
+  }).then(function(txt){newText=txt;var files={};files[KPATH]=txt;return {files:files}});
+ }).then(function(){
+  $("pw-old").value=$("pw-new").value=$("pw-new2").value="";
+  toast("ok","✅ تغيّرت كلمة السر.<br>من هلق ادخل بكلمة السر الجديدة. (على التلفونات التانية بتشتغل الجديدة بعد دقيقة أو دقيقتين.)",[{t:"تمام",pri:1,f:function(){hideToast();show("home");homeInfo()}}]);
+ }).catch(function(e){if(e&&e.user)bad(esc(e.message).replace("كلمة السر غلط","كلمة السر القديمة غلط"));else fail(e)});
+};
+$("b-logout").onclick=function(){if(!confirm("أكيد بدك تطلع؟ رح تحتاج كلمة السر لتدخل من جديد."))return;forgetToken();token="";D=null;show("login")};
 function start(){
  busy("عم نحمّل الموديلات…");
- return readFresh().then(function(f){D=f;hideToast();show("home");homeInfo()}).catch(function(e){fail(e);if(e.status===401){try{localStorage.removeItem(TK)}catch(_){}token="";show("login")}});
+ return readFresh().then(function(f){D=f;hideToast();show("home");homeInfo()}).catch(function(e){fail(e);if(e.status===401){forgetToken();token="";show("login")}});
 }
 
 /* ---------- photos ---------- */
