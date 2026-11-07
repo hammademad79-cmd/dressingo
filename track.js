@@ -83,6 +83,7 @@ function send(type,force){
   var bd=payload(type); try{ if(!navigator.sendBeacon(RELAY,new Blob([bd],{type:"text/plain"}))) fetch(RELAY,{method:"POST",body:bd,keepalive:true,headers:{"content-type":"text/plain"}}) }catch(e){}
 }
 var st=setInterval(function(){ if(document.visibilityState==="visible"){ if(!S.mid) start(); else clearInterval(st) } },1000);
+var lastBeat=0; setInterval(function(){ if(S.mid && document.visibilityState==="visible" && Date.now()-lastBeat>=20000){ lastBeat=Date.now(); send("beat") } },5000);
 document.addEventListener("visibilitychange",function(){
   if(document.visibilityState==="hidden"){ if(visStart){base+= (Date.now()-visStart)/1000; visStart=0} S.sec=Math.round(base); send("end") }
   else { visStart=Date.now() }
