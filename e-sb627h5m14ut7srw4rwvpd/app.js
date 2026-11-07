@@ -66,7 +66,7 @@ function errText(e){
  if(e&&e.user)return e.message;
  var s=e&&e.status,t=(e&&e.text)||"";
  if(!s)return "في مشكلة بالإنترنت أو الاتصال. تأكد من الشبكة وجرّب كمان مرة.";
- if(s===401)return "المفتاح غلط أو انتهت صلاحيته. اعمل مفتاح جديد والصقه (زر «خروج» بعدين ادخل من جديد).";
+ if(s===401)return "🔑 المفتاح منتهي، تواصل معنا ونجدّده.";
  if(s===403&&/rate limit/i.test(t))return "صار في طلبات كتير. استنى دقيقة وجرّب كمان مرة.";
  if(s===403||s===404)return "المفتاح ما إله صلاحية تعديل على موقع dressingo. لازم يكون Contents = Read and write ومختار الـ repo «dressingo».";
  if(s===409||s===422)return "في تعديل تاني صار بنفس اللحظة. جرّب كمان مرة.";
@@ -203,7 +203,7 @@ $("b-pw-save").onclick=function(){
 $("b-logout").onclick=function(){if(!confirm("أكيد بدك تطلع؟ رح تحتاج كلمة السر لتدخل من جديد."))return;forgetToken();token="";D=null;show("login")};
 function start(){
  busy("عم نحمّل الموديلات…");
- return readFresh().then(function(f){D=f;hideToast();show("home");homeInfo()}).catch(function(e){fail(e);if(e.status===401){forgetToken();token="";show("login")}});
+ return readFresh().then(function(f){D=f;hideToast();show("home");homeInfo()}).catch(function(e){if(e&&e.status===401){forgetToken();token="";show("login");toast("bad","🔑 كلمة السر صحيحة، بس مفتاح الموقع منتهي أو انلغى.<br>المفتاح منتهي، تواصل معنا ونجدّده.",[{t:"تمام",pri:1,f:hideToast}])}else fail(e)});
 }
 
 /* ---------- photos ---------- */
