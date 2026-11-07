@@ -25,7 +25,7 @@ function api(method,path,body,raw){
  });
 }
 function readFresh(){
- return api("GET",RP+"/git/ref/heads/"+BR).then(function(ref){
+ return api("GET",RP+"/git/ref/heads/"+BR+"?fresh="+Date.now()).then(function(ref){
   var sha=ref.object.sha;
   return Promise.all([api("GET",RP+"/contents/"+CAT_PATH+"?ref="+sha,null,true),api("GET",RP+"/contents/"+SITE_PATH+"?ref="+sha,null,true)]).then(function(r){
    return {sha:sha,cat:JSON.parse(r[0]),site:JSON.parse(r[1])};
