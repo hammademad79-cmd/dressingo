@@ -1,0 +1,38 @@
+/* Dressingo blog */
+.bc{max-width:760px;margin:14px auto 0;padding:0 16px;font-size:14px;color:#6b6458}.bc a{color:#8a6a24}
+.post{max-width:760px;margin:0 auto;padding:8px 16px 0}
+.post-h h1{font-size:clamp(25px,6.4vw,38px);line-height:1.35;margin:6px 0 10px;color:var(--ink);font-weight:800}
+.post-k{margin:12px 0 0;color:#8a6a24;font-weight:800;font-size:14px}
+.post-m{margin:0;color:#6b6458;font-size:14px}
+.post-f{margin:18px 0 6px;border-radius:var(--r);overflow:hidden;background:var(--bk);aspect-ratio:4/3}
+.post-f img{width:100%;height:100%;object-fit:cover;object-position:center 18%;display:block}
+.post-b{font-size:17.5px;line-height:1.95;color:#2a261f}
+.post-b h2{font-size:22px;line-height:1.45;margin:30px 0 8px;color:var(--ink);padding-inline-start:12px;border-inline-start:4px solid var(--gd)}
+.post-b p{margin:0 0 14px}.post-b ul{margin:0 0 16px;padding-inline-start:22px}.post-b li{margin:0 0 8px}
+.post-b li::marker{color:var(--gd)}
+.post-b a{color:#8a6a24;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.post-lead{font-size:19px;color:var(--ink);font-weight:600}
+.note{background:#fff8e6;border:1px solid #ecd9a6;border-radius:12px;padding:12px 14px;font-size:16px}
+.msg{margin:0 0 14px;background:#e7f7ec;border:1px solid #bfe6cb;border-radius:14px 14px 4px 14px;padding:12px 14px;font-size:16px;line-height:1.8}
+.faq{margin-top:30px}.faq details{background:#fff;border:1px solid #ece4d4;border-radius:12px;margin:0 0 10px;padding:0 14px}
+.faq summary{cursor:pointer;font-weight:800;padding:13px 0;list-style:none;position:relative;padding-inline-end:26px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;inset-inline-end:0;top:10px;color:#8a6a24;font-size:22px;font-weight:800}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin:0 0 14px;font-size:16.5px}
+.cta{max-width:760px;margin:30px auto 0;background:radial-gradient(120% 90% at 80% 0%,#2a2416 0%,var(--bk) 65%);color:var(--tx);border-radius:18px;padding:24px 18px;box-sizing:border-box}
+.post~.cta{margin-inline:16px}@media(min-width:792px){.post~.cta{margin-inline:auto}}
+.cta-k{margin:0;color:var(--gd);font-weight:700;font-size:14px}.cta h2{margin:6px 0 8px;font-size:23px;color:#fff}.cta p{color:#d4cbbb;margin:0 0 16px}
+.cta-b{display:flex;flex-wrap:wrap;gap:10px}.cta-b a{flex:1 1 200px;min-height:50px}
+.related{max-width:1100px;margin:34px auto 0;padding:0 16px}.related>h2{font-size:22px;margin:0 0 12px}
+.rel-cats{font-size:15px;color:#6b6458;line-height:2}.rel-cats a{color:#8a6a24;font-weight:700}
+.bgrid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:620px){.bgrid{grid-template-columns:1fr 1fr}}@media(min-width:960px){.bgrid{grid-template-columns:1fr 1fr 1fr}}
+.bcard{display:flex;gap:12px;background:#fff;border:1px solid #ece4d4;border-radius:var(--r);overflow:hidden;text-decoration:none;color:var(--ink);box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.bcard img{width:104px;flex:none;object-fit:cover;background:var(--bk);aspect-ratio:3/4;height:auto;align-self:stretch}
+.bcard-t{display:flex;flex-direction:column;gap:4px;padding:12px 0;padding-inline-end:12px}
+.bcard-t h2,.bcard-t h3{margin:0;font-size:17px;line-height:1.45;font-weight:800}
+.bcard-d{font-size:14px;color:#6b6458;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bcard-t small{color:#8a6a24;font-weight:800;margin-top:auto}
+.bhero h1{margin:6px 0}.bwrap{max-width:1100px;margin:18px auto 0;padding:0 16px}
+.bwrap .cta{max-width:none}
