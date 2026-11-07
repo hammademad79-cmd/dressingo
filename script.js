@@ -29,7 +29,7 @@ function has(c){return list.some(function(it){return it.c===c})}
 function setQ(c,d){list.forEach(function(it){if(it.c===c)it.q=Math.max(1,Math.min(99,(it.q||1)+d))});save(list);render()}
 function buyerForm(){
  var ul=document.getElementById("sheet-list");if(!ul||document.getElementById("buyer"))return;
- var p=document.querySelector("#sheet .sheet-in > p.muted");if(p)p.textContent="حدّد كم سيري بدك من كل كود، وضيف اسم محلك وبلدك (اختياري). بتنبعت كلها برسالة واتساب جاهزة.";
+ var p=document.querySelector("#sheet .sheet-in > p.muted");if(p)p.textContent="حدّد كم سيري بدك من كل كود، وضيف اسم محلك وبلدك (اختياري). بتنبعت كلها برسالة واتساب جاهزة. وتقدر تطلب سيري واحد من كل موديل، حتى لو 50 أو 100 موديل.";
  var f=document.createElement("div");f.id="buyer";f.className="buyer";
  f.innerHTML='<p class="buyer-h">معلوماتك <small>(اختياري)</small></p>'+
   '<label><span>اسم المحل</span><input id="b-shop" type="text" autocomplete="organization" maxlength="60" placeholder="مثلاً: بوتيك الياسمين"></label>'+
@@ -70,11 +70,17 @@ function card(m,t){
  if(m.sizes)me+='<li><span>المقاسات</span><b dir="ltr">'+esc(m.sizes)+'</b></li>';
  if(m.fabric)me+='<li><span>القماش</span><b>'+esc(m.fabric)+'</b></li>';
  if(m.colors)me+='<li><span>الألوان</span><b>'+esc(m.colors)+'</b></li>';
- return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fab(m))+'"'+(big(m)?' data-big="1"':'')+'>\n <div class="ph"><img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <button type="button" class="add" data-code="'+c+'" aria-pressed="false">+ أضف للقائمة</button>\n </div>\n</article>';
+ return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+'>\n <div class="ph"><img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <button type="button" class="add" data-code="'+c+'" aria-pressed="false">+ أضف للقائمة</button>\n </div>\n</article>';
 }
 function fab(m){var f=String(m.fabric||"").split("·")[0].replace(/\d+\s*%/g,"").replace(/\s+/g," ").trim();return /^(إيلاستين|طقم)/.test(f)?"":f}
+/* APPROXIMATE fabric defaults, by category, for models whose fabric field is empty.
+   The owner confirmed these are the usual fabrics (Nov 7 2026), not checked per model.
+   Used ONLY as filter options (labelled «غالباً»), never shown on the product card. */
+var FAB_DEF={lingerie:"ساتان",women:"قطن/بوليستر",men:"قطن/بوليستر"};
+function fabF(m){return fab(m)||FAB_DEF[m.cat]||""}
+function isDef(f){for(var k in FAB_DEF)if(FAB_DEF[k]===f)return true;return false}
 function big(m){return /(^|[^A-Z])(3XL|4XL|5XL)/i.test(m.sizes||"")}
-function fabOpts(ms){var n={};ms.forEach(function(m){var f=fab(m);if(f)n[f]=(n[f]||0)+1});return Object.keys(n).filter(function(f){return n[f]>=2}).sort(function(a,b){return n[b]-n[a]}).map(function(f){return [f,n[f]]})}
+function fabOpts(ms){var n={};ms.forEach(function(m){var f=fabF(m);if(f)n[f]=(n[f]||0)+1});return Object.keys(n).filter(function(f){return n[f]>=2}).sort(function(a,b){return n[b]-n[a]}).map(function(f){return [f,n[f]]})}
 function get(p){return fetch(p,{cache:"no-cache"}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
 function applySite(s){
  if(!s)return;
@@ -117,7 +123,7 @@ function applyCatalog(d){
 function buildFilters(ms){
  var tl=document.querySelector(".tools");if(!tl||document.getElementById("fx"))return;
  var fo=fabOpts(ms),nb=ms.filter(big).length,box=document.createElement("div");box.id="fx";box.className="fx";var h="";
- if(fo.length>=2)h+='<label class="fx-sel"><span class="vh">القماش</span><select id="f-fab"><option value="">كل الأقمشة</option>'+fo.map(function(f){return '<option value="'+esc(f[0])+'">'+esc(f[0])+' ('+f[1]+')</option>'}).join("")+'</select></label>';
+ if(fo.length>=2)h+='<label class="fx-sel"><span class="vh">القماش</span><select id="f-fab"><option value="">كل الأقمشة</option>'+fo.map(function(f){return '<option value="'+esc(f[0])+'">'+esc(f[0])+(isDef(f[0])?' · غالباً':'')+' ('+f[1]+')</option>'}).join("")+'</select></label>';
  if(nb>=2&&nb<ms.length)h+='<button type="button" class="fchip" id="f-big" aria-pressed="false">مقاسات كبيرة 3XL+ ('+nb+')</button>';
  h+='<span class="fx-n" id="f-n" aria-live="polite"></span>';
  box.innerHTML=h;tl.appendChild(box);

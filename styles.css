@@ -174,3 +174,7 @@ body.has-list .wa-fab{bottom:calc(90px + env(safe-area-inset-bottom))}
 .cta-box b{display:block;color:var(--gd2);font-size:20px;margin-bottom:6px}.cta-box p{margin:0 0 14px;color:#d4cbbb}
 .ship .rd{color:#7a5d1d;font-weight:800}
 @media (min-width:640px){.opts{grid-template-columns:1fr 1fr}}
+
+/* trial-order note + 3-up trust grid */
+.how .trial{max-width:640px;margin:-6px auto 16px;padding:10px 14px;border-radius:12px;background:rgba(201,162,74,.12);border:1px solid #5a4c2c;color:var(--gd2);font-weight:700;font-size:15px;text-align:center}
+@media (min-width:980px){.trust-g{grid-template-columns:repeat(3,1fr)}}
