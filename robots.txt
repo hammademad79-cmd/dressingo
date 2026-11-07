@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /dressingo/e-
 Sitemap: https://hammademad79-cmd.github.io/dressingo/sitemap.xml

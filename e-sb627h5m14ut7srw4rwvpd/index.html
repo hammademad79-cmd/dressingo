@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' https://api.github.com; font-src 'self'; form-action 'none'; base-uri 'none'">
+<meta name="theme-color" content="#0b0b0b">
+<title>تعديل الموقع · Dressingo</title>
+<style>
+@font-face{font-family:Tajawal;src:url(../fonts/tajawal-bold.woff2) format("woff2");font-weight:400 900;font-display:swap}
+:root{--bk:#0b0b0b;--bk2:#191712;--ln:#2e2a22;--gd:#c9a24a;--gd2:#e3c477;--tx:#f4efe4;--mu:#a9a090;--ok:#1fa855;--bad:#d9534f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bk);color:var(--tx);font:500 17px/1.55 Tajawal,"Segoe UI",Tahoma,Arial,sans-serif;padding-bottom:120px}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px;background:rgba(11,11,11,.97);border-bottom:1px solid var(--ln)}
+header b{font-family:Georgia,serif;letter-spacing:2px;color:var(--gd2)}
+header small{display:block;color:var(--mu);font-size:13px}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:24px;margin:8px 0 14px;color:var(--gd2)}
+h2{font-size:20px;margin:22px 0 10px;color:var(--gd2)}
+p{margin:8px 0}
+.mu{color:var(--mu);font-size:15px}
+button,.btn{font:inherit;cursor:pointer;border-radius:14px;border:1px solid var(--gd);background:var(--bk2);color:var(--tx);padding:14px 16px;min-height:54px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.big{display:flex;width:100%;font-size:19px;font-weight:700;margin:10px 0}
+.pri{background:var(--gd);color:#111;border-color:var(--gd);font-weight:800}
+.danger{border-color:var(--bad);color:#ffb3b0}
+.sm{min-height:44px;padding:8px 12px;font-size:15px}
+.ghost{border-color:var(--ln);background:transparent}
+label{display:block;margin:14px 0 6px;font-weight:700}
+label small{font-weight:500;color:var(--mu)}
+input,select,textarea{width:100%;font:inherit;font-size:17px;padding:13px 12px;border-radius:12px;border:1px solid var(--ln);background:#111;color:var(--tx)}
+textarea{min-height:90px}
+input[dir=ltr]{text-align:left}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gd);border-color:var(--gd)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{border:1px solid var(--ln);border-radius:16px;padding:14px;margin:12px 0;background:var(--bk2)}
+.row{display:flex;align-items:center;gap:12px;padding:10px;border:1px solid var(--ln);border-radius:14px;margin:8px 0;background:var(--bk2);width:100%;text-align:right;min-height:72px}
+.row img{width:54px;height:66px;object-fit:cover;border-radius:8px;background:#222;flex:none}
+.row .t{flex:1;min-width:0}
+.row .t b{display:block;direction:ltr;text-align:right;font-size:18px}
+.row .t span{color:var(--mu);font-size:14px}
+.badge{display:inline-block;font-size:13px;padding:2px 8px;border-radius:99px;border:1px solid var(--ln);margin-inline-start:6px}
+.b-off{border-color:var(--bad);color:#ffb3b0}.b-f{border-color:var(--gd);color:var(--gd2)}
+.ord{display:flex;gap:6px;flex:none}.ord button{min-height:48px;min-width:48px;padding:4px;border-radius:12px}
+.ph{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.ph .p{position:relative;width:96px}
+.ph img{width:96px;height:120px;object-fit:cover;border-radius:10px;background:#222}
+.ph .p button{position:absolute;top:4px;left:4px;min-height:34px;min-width:34px;padding:0;border-radius:99px;background:rgba(0,0,0,.75);font-size:16px}
+.ph .p .m{position:absolute;bottom:4px;right:4px;font-size:12px;background:var(--gd);color:#111;border-radius:6px;padding:0 6px}
+.check{display:flex;align-items:center;gap:10px;margin:14px 0;font-weight:700}
+.check input{width:26px;height:26px;flex:none}
+.hide{display:none!important}
+#toast{position:fixed;left:12px;right:12px;bottom:12px;z-index:50;max-width:620px;margin:0 auto;border-radius:16px;padding:16px;background:#1c1a15;border:1px solid var(--gd);box-shadow:0 8px 30px rgba(0,0,0,.6);font-size:17px}
+#toast.ok{border-color:var(--ok)}#toast.bad{border-color:var(--bad)}
+#toast .x{display:flex;gap:8px;margin-top:10px}
+.home a{color:var(--gd2)}
+.tr{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;margin:8px 0}
+.more{margin:10px 0}
+</style>
+</head>
+<body>
+<header><div style="display:flex;align-items:center;gap:10px"><img src="../img/logo-mark.svg" alt="" width="38" height="38"><div><b>DRESSINGO</b><small>صفحة التعديل الخاصة</small></div></div><button type="button" class="sm ghost hide" id="b-home">🏠 الرئيسية</button></header>
+<main>
+<noscript><p>لازم تشغّل JavaScript بالمتصفح.</p></noscript>
+
+<section id="v-login" class="hide">
+ <h1>أهلاً عماد 👋</h1>
+ <p>هاي الصفحة بتخليك تعدّل الموقع من تلفونك. أول مرة بس، لازم تحط «المفتاح» (توكن من GitHub). بينحفظ على هالتلفون بس، وما حدا بيقدر يعدّل بدونه.</p>
+ <a class="btn big" id="mk-token" href="https://github.com/settings/personal-access-tokens/new?name=dressingo-editor&amp;description=Dressingo%20site%20editor%20(dressingo%20repo%20only)&amp;expires_in=none&amp;contents=write" target="_blank" rel="noopener noreferrer">🔑 اعمل مفتاح جديد على GitHub</a>
+ <p class="mu">بالصفحة اللي بتفتح: عند Repository access اختار Only select repositories ← dressingo، وتأكد إنو Contents = Read and write، بعدين Generate token وانسخه.</p>
+ <label for="tok">الصق المفتاح هون <small>(بيبلّش بـ github_pat_)</small></label>
+ <input id="tok" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…">
+ <button type="button" class="big pri" id="b-login">✅ حفظ ودخول</button>
+</section>
+
+<section id="v-home" class="hide home">
+ <h1>شو بدك تعدّل؟</h1>
+ <button type="button" class="big pri" data-go="add">➕ إضافة موديل جديد</button>
+ <button type="button" class="big" data-go="list">📦 الموديلات: تعديل، إخفاء، حذف، تمييز</button>
+ <button type="button" class="big" data-go="order">↕️ ترتيب الموديلات بالقسم</button>
+ <button type="button" class="big" data-go="texts">✏️ النصوص ورقم الواتساب</button>
+ <p class="mu" id="home-info"></p>
+ <p><a href="../" target="_blank" rel="noopener">🌐 افتح الموقع</a></p>
+ <p class="mu">كل حفظ بيطلع عالموقع خلال دقيقة أو دقيقتين.</p>
+ <button type="button" class="sm ghost" id="b-logout">🚪 خروج (امسح المفتاح من هالتلفون)</button>
+</section>
+
+<section id="v-form" class="hide">
+ <h1 id="f-title">➕ موديل جديد</h1>
+ <label>الصور <small>(أول صورة هي الرئيسية، لحد 4 صور)</small></label>
+ <div class="ph" id="f-photos"></div>
+ <label class="btn big" for="f-file" style="margin:6px 0">📷 اختار صورة / صوّر</label>
+ <input type="file" id="f-file" accept="image/*" multiple class="hide">
+ <label for="f-code">الكود <small>(إجباري)</small></label>
+ <input id="f-code" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="مثلاً 1740-2">
+ <label for="f-cat">القسم</label>
+ <select id="f-cat"></select>
+ <label for="f-group">المجموعة <small>(اختياري)</small></label>
+ <select id="f-group"></select>
+ <input id="f-group-new" class="hide" placeholder="اسم المجموعة الجديدة" style="margin-top:8px">
+ <label for="f-sizes">المقاسات <small>(اختياري)</small></label>
+ <input id="f-sizes" dir="ltr" placeholder="M-L-XL-XXL">
+ <label for="f-fabric">القماش <small>(اختياري)</small></label>
+ <input id="f-fabric" placeholder="قطن، بامبو…">
+ <label for="f-colors">الألوان <small>(اختياري)</small></label>
+ <input id="f-colors" placeholder="أسود، كحلي…">
+ <label class="check"><input type="checkbox" id="f-feat"> ⭐ اعرضه بالصفحة الرئيسية</label>
+ <div id="f-pos-w"><label for="f-pos">وين يطلع بالقسم؟</label><select id="f-pos"><option value="top">بأول القسم</option><option value="bottom">بآخر القسم</option></select></div>
+ <button type="button" class="big pri" id="f-save">💾 حفظ</button>
+ <div id="f-edit-actions" class="hide">
+  <button type="button" class="big" id="f-hide">🙈 إخفاء من الموقع</button>
+  <button type="button" class="big danger" id="f-del">🗑️ حذف الموديل نهائياً</button>
+ </div>
+ <button type="button" class="big ghost" data-back>↩️ رجوع</button>
+</section>
+
+<section id="v-list" class="hide">
+ <h1>📦 الموديلات</h1>
+ <select id="l-cat"></select><input id="l-q" dir="ltr" type="search" placeholder="ابحث بالكود…" autocomplete="off" style="margin-top:10px">
+ <p class="mu" id="l-n"></p>
+ <div id="l-rows"></div>
+ <button type="button" class="big ghost more hide" id="l-more">عرض المزيد</button>
+</section>
+
+<section id="v-order" class="hide">
+ <h1>↕️ ترتيب الموديلات</h1>
+ <p class="mu">اختار القسم، حرّك الموديلات بالأسهم، وبالآخر اضغط «حفظ الترتيب».</p>
+ <select id="o-cat"></select>
+ <button type="button" class="big pri" id="o-save">💾 حفظ الترتيب</button>
+ <div id="o-rows"></div>
+ <button type="button" class="big pri" id="o-save2">💾 حفظ الترتيب</button>
+</section>
+
+<section id="v-texts" class="hide">
+ <h1>✏️ النصوص والواتساب</h1>
+ <label for="t-wa">رقم الواتساب <small>(مع رمز البلد)</small></label>
+ <input id="t-wa" dir="ltr" inputmode="tel" placeholder="+90 533 449 10 40">
+ <label for="t-hero">العنوان الكبير بالصفحة الرئيسية <small>(سطرين)</small></label>
+ <textarea id="t-hero" rows="2"></textarea>
+ <label for="t-lead">الجملة تحت العنوان</label>
+ <textarea id="t-lead" rows="3"></textarea>
+ <label for="t-ft">عنوان قسم الموديلات المميزة</label>
+ <input id="t-ft">
+ <label for="t-fs">جملة تحته</label>
+ <input id="t-fs">
+ <h2>كيف تطلب؟ (الخطوات)</h2>
+ <div id="t-steps"></div>
+ <h2>شروط الطلب</h2>
+ <div id="t-terms"></div>
+ <button type="button" class="sm" id="t-add-term">➕ سطر جديد</button>
+ <button type="button" class="big pri" id="t-save">💾 حفظ النصوص</button>
+</section>
+
+<div id="toast" class="hide" role="status" aria-live="polite"><div id="toast-m"></div><div class="x" id="toast-x"></div></div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
