@@ -29,7 +29,7 @@ function has(c){return list.some(function(it){return it.c===c})}
 function setQ(c,d){list.forEach(function(it){if(it.c===c)it.q=Math.max(1,Math.min(99,(it.q||1)+d))});save(list);render()}
 function buyerForm(){
  var ul=document.getElementById("sheet-list");if(!ul||document.getElementById("buyer"))return;
- var p=document.querySelector("#sheet .sheet-in > p.muted");if(p)p.textContent="حدّد كم سيري بدك من كل كود، وضيف اسم محلك وبلدك (اختياري). بتنبعت كلها برسالة واتساب جاهزة. وتقدر تطلب سيري واحد من كل موديل، حتى لو 50 أو 100 موديل.";
+ var p=document.querySelector("#sheet .sheet-in > p.muted");if(p)p.textContent="حدّد كم سيري بدك من كل كود، وضيف اسم محلك وبلدك (اختياري). بتنبعت كلها برسالة واتساب جاهزة. وتقدر تطلب سيري واحد من كل موديل وتنوّع بين الموديلات لحد ما تكمّل كرتونة (الحد الأدنى كرتونة).";
  var f=document.createElement("div");f.id="buyer";f.className="buyer";
  f.innerHTML='<p class="buyer-h">معلوماتك <small>(اختياري)</small></p>'+
   '<label><span>اسم المحل</span><input id="b-shop" type="text" autocomplete="organization" maxlength="60" placeholder="مثلاً: بوتيك الياسمين"></label>'+
