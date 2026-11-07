@@ -11,6 +11,7 @@ var $=function(id){return document.getElementById(id)};
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function el(tag,attrs,html){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==="text")e.textContent=attrs[k];else e.setAttribute(k,attrs[k])}if(html!=null)e.innerHTML=html;return e}
 function imgSrc(p){return blobUrls[p]||("../"+p)}
+function b64utf8(s){var b=new TextEncoder().encode(s),o="",i;for(i=0;i<b.length;i+=0x8000)o+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(o)}
 function UErr(m){var e=new Error(m);e.user=true;return e}
 
 /* ---------- GitHub API ---------- */
@@ -59,11 +60,12 @@ function commit(message,mutate,blobs){
   var fresh;
   return readFresh().then(function(f){fresh=f;return mutate(f)}).then(function(out){
    return api("GET",RP+"/git/commits/"+fresh.sha).then(function(c){
-    var tree=[];
-    Object.keys(out.files||{}).forEach(function(p){tree.push({path:p,mode:"100644",type:"blob",content:out.files[p]})});
+    var tree=[],fp=Object.keys(out.files||{});
+    return fp.reduce(function(pr,p){return pr.then(function(){return api("POST",RP+"/git/blobs",{content:b64utf8(out.files[p]),encoding:"base64"}).then(function(r){tree.push({path:p,mode:"100644",type:"blob",sha:r.sha})})})},Promise.resolve()).then(function(){
     (blobs||[]).forEach(function(b){tree.push({path:b.path,mode:"100644",type:"blob",sha:blobShas[b.path]})});
     (out.del||[]).forEach(function(p){tree.push({path:p,mode:"100644",type:"blob",sha:null})});
     return api("POST",RP+"/git/trees",{base_tree:c.tree.sha,tree:tree});
+    });
    }).then(function(t){
     return api("POST",RP+"/git/commits",{message:message,tree:t.sha,parents:[fresh.sha]});
    }).then(function(nc){
