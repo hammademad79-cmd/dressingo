@@ -102,3 +102,75 @@ main>.grid{max-width:1100px;margin:8px auto 0;padding:0 16px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 .top-link{margin-inline-start:auto;color:var(--gd2);text-decoration:none;font-weight:800;font-size:15px;padding:8px 6px;white-space:nowrap}.top-link[aria-current="page"]{text-decoration:underline;text-underline-offset:6px}
+
+/* order list: qty + buyer info */
+.sheet-list li{flex-wrap:wrap}
+.sl-t{display:flex;flex-direction:column;line-height:1.25;flex:1 1 100px;min-width:0}.sl-t b{font-size:17px}.sl-t small{color:#8a8173;font-size:12.5px}
+.qty{display:inline-flex;align-items:center;gap:4px}
+.qty button{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--bk);background:var(--bk);color:var(--gd2);font:inherit;font-size:20px;font-weight:800;line-height:1;cursor:pointer;padding:0}
+.qty button:disabled{opacity:.35;cursor:default}
+.qty output{min-width:28px;text-align:center;font-weight:800;font-size:18px}
+.qty small{color:#8a8173;font-size:13px;margin-inline-start:2px}
+.sheet-list .rm{background:#f3ece0}
+.sl-empty{justify-content:center!important;color:#8a8173;font-size:14px}
+.buyer{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 12px;padding:12px;border-radius:12px;background:#faf6ee;border:1px solid #ece4d4}
+.buyer-h{grid-column:1/-1;margin:0;font-weight:800}.buyer-h small{color:#8a8173;font-weight:500}
+.buyer label{display:flex;flex-direction:column;gap:3px;font-size:13px;color:#6b6458}
+.buyer label:first-of-type{grid-column:1/-1}
+.buyer label[hidden]{display:none}
+.buyer input,.buyer select{font:inherit;font-size:16px;padding:9px 10px;border-radius:10px;border:1.5px solid #d8cdb6;background:#fff;color:var(--ink);width:100%;min-height:44px}
+.sheet{overflow:auto}
+.sheet-list{max-height:none;overflow:visible}
+/* fixed WhatsApp button */
+.wa-fab{position:fixed;left:14px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:31;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.85);text-decoration:none;transition:bottom .2s}
+.wa-fab svg{width:32px;height:32px}
+body.has-list .wa-fab{bottom:calc(90px + env(safe-area-inset-bottom))}
+.listbar{bottom:calc(10px + env(safe-area-inset-bottom))}
+@media (max-width:420px){.top{gap:8px;padding:10px 12px}.top-wa{padding:8px 10px}.top-wa span{display:none}.top-link{padding:8px 3px;font-size:14.5px}.top-link+.top-link{margin-inline-start:0}}
+.top-link+.top-link{margin-inline-start:0}
+/* filters */
+.fx{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.fx-sel select{font:inherit;font-size:15px;font-weight:700;padding:7px 12px;border-radius:999px;border:1.5px solid #d8cdb6;background:#fff;color:var(--ink);min-height:40px}
+.fchip{border:1.5px solid #d8cdb6;background:#fff;border-radius:999px;padding:7px 12px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;color:var(--ink);min-height:40px}
+.fchip[aria-pressed="true"]{background:var(--bk);color:var(--gd2);border-color:var(--bk)}
+.fx-n{font-size:14px;color:#6b6458;font-weight:700}
+@media (min-width:980px){.tools{flex-wrap:wrap}}
+/* home: new in, trust, faq */
+.newin,.trust,.faq{max-width:1100px;margin:0 auto;padding:34px 16px 6px}
+.newin[hidden]{display:none}
+.rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:14px -16px 0;padding:2px 16px 10px;scrollbar-width:thin}
+.nw{flex:0 0 46%;max-width:210px;scroll-snap-align:start;display:flex;flex-direction:column;gap:4px}
+.nw .card{flex:1}
+.nw-cat{font-size:13px;color:#7a5d1d;font-weight:700;text-decoration:none;padding:0 4px}
+.trust-g{display:grid;gap:10px;margin-top:14px}
+.tr{background:var(--bk);color:var(--tx);border:1px solid #3a3326;border-radius:var(--r);padding:16px;display:flex;gap:12px;align-items:flex-start}
+.tr-ic{flex:none;width:44px;height:44px;border-radius:50%;background:rgba(201,162,74,.14);border:1px solid #5a4c2c;display:grid;place-items:center;color:var(--gd2);font-size:22px}
+.tr b{display:block;color:var(--gd2);font-size:18px;margin-bottom:2px}.tr p{margin:0 0 10px;color:#d4cbbb;font-size:15px}.tr p:last-child{margin-bottom:0}
+.tr .btn-wa{padding:10px 14px;font-size:15px}
+.faq-l{margin-top:14px;display:grid;gap:8px}
+.faq details{background:#fff;border:1px solid #ece4d4;border-radius:12px;padding:0 14px}
+.faq summary{cursor:pointer;list-style:none;font-weight:800;padding:13px 0;display:flex;justify-content:space-between;gap:10px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:#b48d38;font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:0 0 14px;color:#4a443a}
+.faq details a{color:#7a5d1d;font-weight:700}
+@media (min-width:640px){.trust-g{grid-template-columns:1fr 1fr}.nw{flex-basis:30%}}
+@media (min-width:980px){.nw{flex-basis:19%}}
+/* shipping page */
+.ship{max-width:860px;margin:0 auto;padding:22px 16px 10px}
+.ship .warn{background:#fff7e3;border:1px solid #e6cf92;border-radius:12px;padding:12px 14px;font-size:15px;margin:0 0 16px}
+.opts{display:grid;gap:10px;margin:0 0 22px}
+.opt{background:#fff;border:1px solid #ece4d4;border-radius:var(--r);padding:16px}
+.opt h2{font-size:20px;margin:0 0 6px;display:flex;gap:8px;align-items:center}
+.opt h2 span{font-size:24px}
+.opt p{margin:0 0 8px;color:#4a443a}
+.opt dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:14.5px}
+.opt dt{color:#8a8173}.opt dd{margin:0;font-weight:700}
+.est{display:inline-block;background:#f3ece0;color:#7a5d1d;border-radius:6px;padding:0 6px;font-size:12.5px;font-weight:800;margin-inline-start:4px}
+.ship h2.sec{font-size:22px;margin:24px 0 8px}
+.ship ul.dot{padding-inline-start:20px;margin:0 0 16px;color:#4a443a}
+.cta-box{background:var(--bk);color:var(--tx);border-radius:var(--r);padding:20px 16px;margin:22px 0;border:1px solid #4a3e24}
+.cta-box b{display:block;color:var(--gd2);font-size:20px;margin-bottom:6px}.cta-box p{margin:0 0 14px;color:#d4cbbb}
+.ship .rd{color:#7a5d1d;font-weight:800}
+@media (min-width:640px){.opts{grid-template-columns:1fr 1fr}}
