@@ -14,7 +14,7 @@ function msg(){
  if(!list.length){t="مرحباً Dressingo، أنا صاحب محل وبدي الكتالوج والأسعار بالجملة.";}
  else{
   t="مرحباً Dressingo 👋\nبدي أسعار هالموديلات بالجملة:\n\n";
-  list.forEach(function(it,i){t+=(i+1)+") كود "+it.c+" × "+ser(it.q||1)+(it.k?" ("+it.k+")":"")+"\n"});
+  list.forEach(function(it,i){t+=(i+1)+") كود "+it.c+" × "+ser(it.q||1)+(it.k?" ("+it.k+")":"")+(it.n?" 🆕 موديل جديد، بدي عرض سعر":"")+"\n"});
   t+="\nالمجموع: "+ser(tot())+" من "+list.length+" موديل";
  }
  var info="";
@@ -70,7 +70,7 @@ function card(m,t){
  if(m.sizes)me+='<li><span>المقاسات</span><b dir="ltr">'+esc(m.sizes)+'</b></li>';
  if(m.fabric)me+='<li><span>القماش</span><b>'+esc(m.fabric)+'</b></li>';
  if(m.colors)me+='<li><span>الألوان</span><b>'+esc(m.colors)+'</b></li>';
- return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+'>\n <div class="ph"><img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <button type="button" class="add" data-code="'+c+'" aria-pressed="false">+ أضف للقائمة</button>\n </div>\n</article>';
+ return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+(m.new?' data-new="1"':'')+'>\n <div class="ph">'+(m.new?'<span class="nbadge">جديد 🆕</span>':'')+'<img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <button type="button" class="add" data-code="'+c+'" aria-pressed="false">+ أضف للقائمة</button>\n </div>\n</article>';
 }
 function fab(m){var f=String(m.fabric||"").split("·")[0].replace(/\d+\s*%/g,"").replace(/\s+/g," ").trim();return /^(إيلاستين|طقم)/.test(f)?"":f}
 /* APPROXIMATE fabric defaults, by category, for models whose fabric field is empty.
@@ -125,15 +125,17 @@ function buildFilters(ms){
  var fo=fabOpts(ms),nb=ms.filter(big).length,box=document.createElement("div");box.id="fx";box.className="fx";var h="";
  if(fo.length>=2)h+='<label class="fx-sel"><span class="vh">القماش</span><select id="f-fab"><option value="">كل الأقمشة</option>'+fo.map(function(f){return '<option value="'+esc(f[0])+'">'+esc(f[0])+(isDef(f[0])?' · غالباً':'')+' ('+f[1]+')</option>'}).join("")+'</select></label>';
  if(nb>=2&&nb<ms.length)h+='<button type="button" class="fchip" id="f-big" aria-pressed="false">مقاسات كبيرة 3XL+ ('+nb+')</button>';
+ var nn=ms.filter(function(m){return m.new}).length;if(nn>=1&&nn<ms.length)h+='<button type="button" class="fchip" id="f-new" aria-pressed="false">جديد 🆕 ('+nn+')</button>';
  h+='<span class="fx-n" id="f-n" aria-live="polite"></span>';
  box.innerHTML=h;tl.appendChild(box);
  var sel=document.getElementById("f-fab");if(sel)sel.addEventListener("change",filt);
  var bb=document.getElementById("f-big");if(bb)bb.addEventListener("click",function(){bb.setAttribute("aria-pressed",bb.getAttribute("aria-pressed")==="true"?"false":"true");filt()});
+ var bn=document.getElementById("f-new");if(bn)bn.addEventListener("click",function(){bn.setAttribute("aria-pressed",bn.getAttribute("aria-pressed")==="true"?"false":"true");filt()});
 }
 document.addEventListener("click",function(e){
  var b=e.target.closest(".add");
  if(b){var c=b.dataset.code,card=b.closest(".card"),k=card?card.dataset.cat:"";
-  if(has(c))list=list.filter(function(o){return o.c!==c});else list.push({c:c,k:k,q:1});
+  if(has(c))list=list.filter(function(o){return o.c!==c});else{var it0={c:c,k:k,q:1};if(card&&card.dataset.new==="1")it0.n=1;list.push(it0)}
   save(list);render();return}
  var s=e.target.closest(".sw-b");
  if(s){var cd=s.closest(".card");cd.querySelector(".ph img").src=s.dataset.src;cd.querySelectorAll(".sw-b").forEach(function(x){x.classList.toggle("on",x===s)});return}
@@ -147,8 +149,8 @@ var cr=document.getElementById("sheet-clear");if(cr)cr.addEventListener("click",
 var q=document.getElementById("q");
 function filt(){
  var v=q?q.value.trim().toUpperCase().replace(/\s+/g,""):"";var on=document.querySelector(".chip.on");var ln=on?on.dataset.line:"";var shown=0;
- var fs=document.getElementById("f-fab"),fv=fs?fs.value:"",bg=document.getElementById("f-big"),bv=bg&&bg.getAttribute("aria-pressed")==="true",all=0;
- document.querySelectorAll("#grid .card").forEach(function(c){all++;var ok=(!v||c.dataset.code.toUpperCase().replace(/\s+/g,"").indexOf(v)>-1)&&(!ln||c.dataset.line===ln)&&(!fv||c.dataset.fab===fv)&&(!bv||c.dataset.big==="1");c.hidden=!ok;if(ok)shown++});
+ var fs=document.getElementById("f-fab"),fv=fs?fs.value:"",bg=document.getElementById("f-big"),bv=bg&&bg.getAttribute("aria-pressed")==="true",nw=document.getElementById("f-new"),nv=nw&&nw.getAttribute("aria-pressed")==="true",all=0;
+ document.querySelectorAll("#grid .card").forEach(function(c){all++;var ok=(!v||c.dataset.code.toUpperCase().replace(/\s+/g,"").indexOf(v)>-1)&&(!ln||c.dataset.line===ln)&&(!fv||c.dataset.fab===fv)&&(!bv||c.dataset.big==="1")&&(!nv||c.dataset.new==="1");c.hidden=!ok;if(ok)shown++});
  var fn=document.getElementById("f-n");if(fn)fn.textContent=shown<all?shown+" من "+all+" موديل":"";
  var em=document.getElementById("empty");if(em)em.hidden=shown>0;
 }
