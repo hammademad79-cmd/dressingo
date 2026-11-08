@@ -136,7 +136,7 @@ function cartPage(cat){
    '<button type="button" class="cart-rm" aria-label="شيل الكود '+esc(x.c)+'">×</button></li>'}).join("");sync()}
  box.addEventListener("click",function(e){var b=e.target.closest(".cart-rm");if(!b)return;var id=b.closest(".cart-row").dataset.id;cWrite(cRead().filter(function(x){return x.id!==id}));try{var u=new URL(location.href);u.searchParams.delete("c");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e2){}draw()});
  box.addEventListener("input",function(e){var t=e.target,r=t.closest(".cart-row");if(!r)return;var a=cRead();a.forEach(function(x){if(x.id===r.dataset.id){if(t.dataset.f==="q")x.q=Math.max(1,Math.min(99,parseInt(t.value,10)||1));if(t.dataset.f==="n")x.n=String(t.value).slice(0,80)}});cWrite(a);sync()});
- if(f){f.noValidate=true;f.addEventListener("input",sync);
+ if(f){f.noValidate=true;f.addEventListener("input",function(){sync();if(err)err.hidden=true});
   f.addEventListener("submit",function(e){e.preventDefault();err.hidden=true;
    var nm=val("o-name"),ph=val("o-phone");
    if(!nm||ph.replace(/[^\d]/g,"").length<6){err.textContent="اكتب اسمك ورقم هاتف صحيح لنقدر نتواصل معك.";err.hidden=false;return}
