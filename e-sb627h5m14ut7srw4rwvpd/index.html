@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' https://api.github.com; font-src 'self'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' https://api.github.com https://dressingo-visits.sites.tab.bot; font-src 'self'; form-action 'none'; base-uri 'none'">
 <meta name="theme-color" content="#0b0b0b">
 <title>تعديل الموقع · Dressingo</title>
 <style>
@@ -57,6 +57,20 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gd);border-color
 .home a{color:var(--gd2)}
 .tr{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;margin:8px 0}
 .more{margin:10px 0}
+.oc{border:1px solid var(--ln);border-radius:16px;padding:12px 14px;margin:10px 0;background:var(--bk2)}
+.oc-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.oc-h b{color:var(--gd2);font-size:18px}
+.oc-h .tm{color:var(--mu);font-size:14px;direction:ltr}
+.oc .who{font-weight:800;font-size:18px;margin:6px 0 2px}
+.oc .ln{font-size:15px;margin:2px 0;overflow-wrap:anywhere}
+.oc .ln a{color:var(--gd2)}
+.oc ul{margin:8px 0;padding:0 18px 0 0;font-size:15px}
+.oc ul li{margin:2px 0}.oc ul b{direction:ltr;display:inline-block}
+.tag{display:inline-block;font-size:13px;border:1px solid var(--ln);border-radius:999px;padding:2px 10px;margin:0 0 0 6px;color:var(--mu)}
+.tag.wa{border-color:#1fa855;color:#7fe0a5}.tag.ok{border-color:var(--gd);color:var(--gd2)}.tag.test{border-color:#d9534f;color:#ffb3b0}
+.st-sel{width:auto;min-width:150px;font-size:15px;padding:8px 10px}
+.st-new{outline:2px solid var(--gd)}
+.wa-l{display:inline-flex;align-items:center;gap:6px;margin-top:6px;border:1px solid #1fa855;color:#7fe0a5;border-radius:12px;padding:8px 12px;text-decoration:none;font-size:15px}
 </style>
 </head>
 <body>
@@ -100,6 +114,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gd);border-color
  <button type="button" class="big" data-go="list">📦 الموديلات: تعديل، إخفاء، حذف، تمييز</button>
  <button type="button" class="big" data-go="order">↕️ ترتيب الموديلات بالقسم</button>
  <button type="button" class="big" data-go="texts">✏️ النصوص ورقم الواتساب</button>
+ <button type="button" class="big pri" data-go="orders">🧾 الطلبيات <span id="ord-badge"></span></button>
+ <button type="button" class="big" data-go="customers">👥 العملاء</button>
  <p class="mu" id="home-info"></p>
  <p><a href="../" target="_blank" rel="noopener">🌐 افتح الموقع</a></p>
  <p class="mu">كل حفظ بيطلع عالموقع خلال دقيقة أو دقيقتين.</p>
@@ -107,6 +123,25 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gd);border-color
  <button type="button" class="sm ghost" id="b-logout">🚪 خروج</button>
 </section>
 
+<section id="v-orders" class="hide">
+ <h1>🧾 الطلبيات</h1>
+ <p class="mu">كل طلب بيوصل من «السلة» بالموقع: «أرسل الطلب» (نموذج) أو «أرسل عالواتساب». الأحدث فوق. غيّر الحالة لما تتواصل أو تبيع.</p>
+ <div class="grid2"><select id="ord-f" aria-label="فلترة حسب الحالة"><option value="">كل الحالات</option></select><button type="button" class="sm" id="ord-reload">🔄 تحديث</button></div>
+ <label class="check"><input type="checkbox" id="ord-tests"> اعرض طلبات التجربة كمان</label>
+ <p class="mu" id="ord-sum"></p>
+ <div id="ord-list"></div>
+ <button type="button" class="big" id="ord-csv">⬇️ تنزيل الطلبيات (Excel / CSV)</button>
+ <button type="button" class="big ghost" data-back>↩️ رجوع</button>
+</section>
+<section id="v-customers" class="hide">
+ <h1>👥 العملاء</h1>
+ <p class="mu">كل زبون مرة وحدة حسب رقم الهاتف: عدد طلباته وآخر طلب. «✅ عروض» يعني وافق يوصله عروض وموديلات جديدة.</p>
+ <label class="check"><input type="checkbox" id="cus-consent"> بس اللي وافقوا على العروض</label>
+ <p class="mu" id="cus-sum"></p>
+ <div id="cus-list"></div>
+ <button type="button" class="big" id="cus-csv">⬇️ تنزيل العملاء (Excel / CSV)</button>
+ <button type="button" class="big ghost" data-back>↩️ رجوع</button>
+</section>
 <section id="v-form" class="hide">
  <h1 id="f-title">➕ موديل جديد</h1>
  <label>الصور <small>(أول صورة هي الرئيسية، لحد 4 صور)</small></label>
