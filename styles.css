@@ -1,4 +1,4 @@
-/* Dressingo Toptan — catalog styles v6 (Nov 2026 redesign) */
+/* Dressingo Toptan — catalog styles v7 (Nov 2026 redesign + phone fixes) */
 @font-face{font-family:Tajawal;src:url(fonts/tajawal-bold.woff2) format("woff2");font-weight:400 900;font-display:swap}
 :root{
  --bk:#0b0b0b;--bk2:#141310;--bk3:#1d1b17;--line-d:#2e2a22;
@@ -21,7 +21,7 @@ button{font-family:inherit}
 .muted{color:var(--mu)}
 
 /* ---------- header + sticky category nav ---------- */
-.top{position:sticky;top:0;z-index:40;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px var(--gut) 0;background:rgba(11,11,11,.97);border-bottom:1px solid var(--line-d);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.top{position:sticky;top:0;z-index:40;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px var(--gut) 0;background:#0b0b0b;border-bottom:1px solid var(--line-d)}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tx);min-height:44px}
 .logo{width:40px;height:40px;flex:none}
 .brand-t{display:flex;flex-direction:column;line-height:1.15}
@@ -295,3 +295,19 @@ body.has-list .wa-fab{bottom:calc(90px + env(safe-area-inset-bottom))}
 @media (min-width:640px){.opts{grid-template-columns:1fr 1fr}}
 
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* ---------- v7 fixes (Nov 8): nothing may cover the page on phones ---------- */
+/* order sheet: hidden unless opened, even on browsers without <dialog> support */
+dialog.sheet:not([open]){display:none!important}
+.sheet[open]{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:60;display:flex;flex-direction:column;margin:0 auto;width:100%;max-width:620px;max-height:85vh;max-height:85dvh;overflow:hidden;background:#fff;color:var(--ink);box-shadow:0 -8px 40px rgba(0,0,0,.35)}
+.sheet::backdrop{background:rgba(0,0,0,.45)}
+.sheet-in{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:18px 18px calc(18px + env(safe-area-inset-bottom))}
+.sheet h2{padding-inline-end:52px}
+.sheet-x{position:absolute;top:10px;left:10px;z-index:3;width:44px;height:44px;border-radius:50%;border:0;background:#f3ece0;color:var(--ink);font:inherit;font-size:28px;line-height:1;font-weight:700;cursor:pointer;display:grid;place-items:center;padding:0 0 3px}
+.sheet-x:hover{background:#e9dfcc}
+/* list bar: slimmer, and the page gets room under it so it never hides the last cards */
+.listbar{padding:6px;border-radius:16px;gap:6px}
+.lb-send{min-height:42px;padding:8px 12px}
+body.has-list{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+/* floating WhatsApp: on phones the header already carries the WhatsApp button, so the float would only cover cards */
+@media (max-width:639px){.wa-fab{display:none}}
