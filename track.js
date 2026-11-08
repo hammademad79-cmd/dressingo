@@ -33,7 +33,7 @@ function source(){
   if(/yandex/.test(s))return "yandex";
   if(/snapchat/.test(s))return "snapchat";
   if(/twitter|t\.co|x\.com/.test(s))return "twitter";
-  if(r && r.indexOf("github.io")<0) return r.slice(0,40);
+  if(r && r.indexOf("github.io")<0 && r.indexOf("dressingo.pages.dev")<0) return r.slice(0,40);
   return u?u.slice(0,30):"direct";
 }
 function device(){var w=Math.min(screen.width||0,screen.height||0);if(/iPad|Tablet/i.test(ua)||(/Android/i.test(ua)&&!/Mobile/i.test(ua)))return "tablet";if(/Mobi|iPhone|Android/i.test(ua)||w&&w<500)return "mobile";return "desktop"}
