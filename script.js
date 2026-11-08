@@ -1,3 +1,4 @@
+(function(){try{var u=navigator.userAgent||"";if(/FBAN|FBAV|FB_IAB|FBIOS|FB4A|Instagram|Messenger|MessengerLite|; wv\)/.test(u))document.documentElement.classList.add("iab")}catch(e){}})();
 (function(){
 var WA="905334491040",WAD="+90 533 449 10 40",KEY="dt_list_v1",BKEY="dt_buyer_v1";
 var COUNTRIES=["السعودية", "الإمارات", "الكويت", "قطر", "البحرين", "عُمان", "العراق", "الأردن", "فلسطين", "لبنان", "سوريا", "اليمن", "مصر", "ليبيا", "تونس", "الجزائر", "المغرب", "السودان", "موريتانيا", "الصومال", "جيبوتي", "جزر القمر"];
@@ -64,6 +65,39 @@ function render(){
 }
 /* ---- catalog data (data/catalog.json, data/site.json) ---- */
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+/* v7 (Nov 8): display-only group labels, so only real maternity models read «ملابس حوامل».
+   Checked against the factories' own printed descriptions (HAMİLE / LOHUSA = maternity). catalog.json is untouched;
+   a fix applies only while the model still has its old group, so anything the owner changes in the editor wins. */
+var GFIX={"w-3479":["أطقم روب وحوامل","ملابس حوامل"],"w-3480":["أطقم روب وحوامل","ملابس حوامل"],"w-3481":["أطقم روب وحوامل","ملابس حوامل"],"w-3482":["أطقم روب وحوامل","ملابس حوامل"],"w-3483":["أطقم روب وحوامل","ملابس حوامل"],"w-3484":["أطقم روب وحوامل","ملابس حوامل"],"w-3485":["أطقم روب وحوامل","ملابس حوامل"],"w-3486":["أطقم روب وحوامل","ملابس حوامل"],"w-3487":["أطقم روب وحوامل","ملابس حوامل"],"w-3488":["أطقم روب وحوامل","ملابس حوامل"],"w-3489":["أطقم روب وحوامل","ملابس حوامل"],"w-3490":["أطقم روب وحوامل","ملابس حوامل"],"w-3442":["أطقم روب وحوامل","ملابس حوامل"],"w-2335":["أطقم روب وحوامل","ملابس حوامل"],"w-2336":["أطقم روب وحوامل","ملابس حوامل"],"w-2337":["أطقم روب وحوامل","ملابس حوامل"],"w-2338":["أطقم روب وحوامل","ملابس حوامل"],"w-2339":["أطقم روب وحوامل","ملابس حوامل"],"w-2340":["أطقم روب وحوامل","ملابس حوامل"],"w-2341":["أطقم روب وحوامل","ملابس حوامل"],"w-2342":["أطقم روب وحوامل","ملابس حوامل"],"w-2343":["أطقم روب وحوامل","ملابس حوامل"],"w-2344":["أطقم روب وحوامل","ملابس حوامل"],"w-2345":["أطقم روب وحوامل","ملابس حوامل"],"w-2346":["أطقم روب وحوامل","ملابس حوامل"],"w-2347":["أطقم روب وحوامل","ملابس حوامل"],"w-2305":["أطقم روب وحوامل","ملابس حوامل"],"w-1178":["أطقم روب وحوامل","ملابس حوامل"],"w-1179":["أطقم روب وحوامل","ملابس حوامل"],"w-1180":["أطقم روب وحوامل","ملابس حوامل"],"w-1181":["أطقم روب وحوامل","ملابس حوامل"],"w-0736":["أطقم روب وحوامل","ملابس حوامل"],"w-1041":["أطقم روب وحوامل","قمصان نوم وروبات"],"w-1042":["أطقم روب وحوامل","قمصان نوم وروبات"],"w-1006":["أطقم روب وحوامل","قمصان نوم وروبات"],"w-0811":["أطقم روب وحوامل","قمصان نوم وروبات"],"w-0812":["أطقم روب وحوامل","قمصان نوم وروبات"],"w-c840-850":["مجموعة الحوامل","بيجامات مودال"],"w-c840-851":["مجموعة الحوامل","بيجامات مودال"],"w-c840-860":["مجموعة الحوامل","ملابس حوامل"]};
+var GREN={"أطقم روب وحوامل": ["ملابس حوامل", "قمصان نوم وروبات"], "مجموعة الحوامل": ["ملابس حوامل", "بيجامات مودال"]};
+function fixGroups(d){try{var used={};(d.models||[]).forEach(function(m){var f=GFIX[m.id];if(f&&m.g===f[0])m.g=f[1];if(m.g)used[m.g]=1});
+ (d.cats||[]).forEach(function(c){if(!c.groups)return;var out=[];c.groups.forEach(function(g){var r=GREN[g];if(r&&!used[g]){r.forEach(function(x){if(out.indexOf(x)<0)out.push(x)})}else if(out.indexOf(g)<0)out.push(g)});c.groups=out})}catch(e){}}
+/* v7: centre every product photo the same way. Many supplier photos carry wide white margins on one side,
+   so the model sat to the right or left. Each photo is measured once (tiny canvas), its white margins are
+   trimmed, and it is fitted and centred in the 3:4 frame. If anything fails the photo stays as it was. */
+var FITC=null;
+function fitImg(img){
+ try{var ph=img.parentNode;if(!ph||!ph.classList||!ph.classList.contains("ph"))return;
+  var nw=img.naturalWidth,nh=img.naturalHeight;if(!nw||!nh)return;
+  var sw=48,sh=Math.max(8,Math.round(48*nh/nw));if(sh>200)sh=200;
+  FITC=FITC||document.createElement("canvas");FITC.width=sw;FITC.height=sh;var cx=FITC.getContext("2d",{willReadFrequently:true});
+  cx.fillStyle="#fff";cx.fillRect(0,0,sw,sh);cx.drawImage(img,0,0,sw,sh);var px=cx.getImageData(0,0,sw,sh).data;
+  var cols=new Array(sw).fill(0),rows=new Array(sh).fill(0);
+  for(var y=0;y<sh;y++)for(var x=0;x<sw;x++){var k=(y*sw+x)*4;if(px[k]<236||px[k+1]<236||px[k+2]<236){cols[x]++;rows[y]++}}
+  var x0=0,x1=sw-1,y0=0,y1=sh-1,tc=Math.max(1,sh*0.02),tr=Math.max(1,sw*0.02);
+  while(x0<x1&&cols[x0]<tc)x0++;while(x1>x0&&cols[x1]<tc)x1--;while(y0<y1&&rows[y0]<tr)y0++;while(y1>y0&&rows[y1]<tr)y1--;
+  var fx0=x0/sw,fx1=(x1+1)/sw,fy0=y0/sh,fy1=(y1+1)/sh;
+  var trimmed=(fx0>0.04||fx1<0.96||fy0>0.04||fy1<0.96);
+  var BW=3,BH=4,cw=(fx1-fx0)*nw,ch=(fy1-fy0)*nh,s,cover=false;
+  if(!trimmed)return;
+  s=Math.min(BW/cw,BH/ch)*0.94;
+  var iw=nw*s,ih=nh*s,l=BW/2-(fx0+fx1)/2*iw,t=BH/2-(fy0+fy1)/2*ih;
+  if(cover){l=(BW-iw)/2;t=ih>BH?-(ih-BH)*0.25:(BH-ih)/2}
+  var st=img.style;st.inset="auto";st.right="auto";st.bottom="auto";st.left=(l/BW*100)+"%";st.top=(t/BH*100)+"%";st.width=(iw/BW*100)+"%";st.height=(ih/BH*100)+"%";st.maxWidth="none";st.objectFit="fill";
+  img.classList.add("fit")}catch(e){}
+}
+document.addEventListener("load",function(e){var t=e.target;if(t&&t.tagName==="IMG"&&t.parentNode&&t.parentNode.classList&&t.parentNode.classList.contains("ph"))fitImg(t)},true);
+function fitAll(){document.querySelectorAll(".ph img").forEach(function(i){if(i.complete&&i.naturalWidth)fitImg(i)})}
 function card(m,t,sub){
  var c=esc(m.c),tt=esc(t),lb=esc(sub||t),w=m.w||480,h=m.h||600,im=m.img||[],sw="",me="";
  if(im.length>1){var th=Math.floor(40*h/w);sw='<div class="sw" role="group" aria-label="صور أخرى">'+im.map(function(s,i){return '<button type="button" class="sw-b'+(i?'':' on')+'" data-src="'+esc(s)+'" aria-label="صورة '+(i+1)+'"><img src="'+esc(s)+'" alt="" loading="lazy" decoding="async" width="40" height="'+th+'"></button>'}).join("")+'</div>'}
@@ -100,6 +134,7 @@ function applySite(s){
 }
 function applyCatalog(d){
  if(!d)return;
+ fixGroups(d);
  var cats={};(d.cats||[]).forEach(function(c){cats[c.key]=c});
  var vis=(d.models||[]).filter(function(m){return !m.off&&cats[m.cat]});
  var grid=document.getElementById("grid");
@@ -141,7 +176,7 @@ document.addEventListener("click",function(e){
   if(has(c))list=list.filter(function(o){return o.c!==c});else{var it0={c:c,k:k,q:1};if(card&&card.dataset.new==="1")it0.n=1;list.push(it0)}
   save(list);render();return}
  var s=e.target.closest(".sw-b");
- if(s){var cd=s.closest(".card");cd.querySelector(".ph img").src=s.dataset.src;cd.querySelectorAll(".sw-b").forEach(function(x){x.classList.toggle("on",x===s)});return}
+ if(s){var cd=s.closest(".card");var pi=cd.querySelector(".ph img");pi.removeAttribute("style");pi.classList.remove("fit");pi.src=s.dataset.src;cd.querySelectorAll(".sw-b").forEach(function(x){x.classList.toggle("on",x===s)});return}
  var ch=e.target.closest(".chip");
  if(ch){document.querySelectorAll(".chip").forEach(function(x){x.classList.toggle("on",x===ch)});filt();return}
 });
@@ -182,6 +217,6 @@ var needCat=document.getElementById("grid")||document.getElementById("new-rail")
 Promise.all([get("data/site.json").catch(function(){return null}),needCat?get("data/catalog.json").catch(function(){return null}):Promise.resolve(null)]).then(function(r){
  try{applySite(r[0])}catch(e){}
  if(needCat){if(r[1]){try{applyCatalog(r[1])}catch(e){}}else{var g=document.getElementById("grid");if(g&&g.dataset.cat&&!g.children.length)g.innerHTML='<p class="empty">ما قدرنا نحمّل الموديلات. حدّث الصفحة أو اسألنا على واتساب.</p>'}}
- render();if(q&&q.value)filt();
+ render();if(q&&q.value)filt();fitAll();
 });
 })();
