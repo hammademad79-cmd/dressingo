@@ -98,6 +98,59 @@ function fitImg(img){
 }
 document.addEventListener("load",function(e){var t=e.target;if(t&&t.tagName==="IMG"&&t.parentNode&&t.parentNode.classList&&t.parentNode.classList.contains("ph"))fitImg(t)},true);
 function fitAll(){document.querySelectorAll(".ph img").forEach(function(i){if(i.complete&&i.naturalWidth)fitImg(i)})}
+
+/* ---------- v11 cart: a normal page (cart.html), no bars, drawers or overlays ---------- */
+var CKEY="dt_cart_v1",CMEM=null;
+function cRead(){var a=null;try{a=JSON.parse(localStorage.getItem(CKEY)||"null")}catch(e){a=null}if(!Array.isArray(a))a=CMEM||[];
+ try{var u=new URLSearchParams(location.search).get("c");if(u){u.split(",").forEach(function(id){id=id.trim();if(id&&!a.some(function(x){return x.id===id}))a.push({id:id,q:1})})}}catch(e){}
+ return a.filter(function(x){return x&&x.id}).slice(0,60)}
+function cWrite(a){CMEM=a;try{localStorage.setItem(CKEY,JSON.stringify(a))}catch(e){}cUI()}
+function cHas(id){return cRead().some(function(x){return x.id===id})}
+function cUrl(a){var ids=(a||cRead()).map(function(x){return x.id});return "cart.html"+(ids.length?"?c="+encodeURIComponent(ids.join(",")).replace(/%2C/g,","):"")}
+function cUI(){var a=cRead();
+ document.querySelectorAll(".cart-n").forEach(function(n){n.textContent=" ("+a.length+")";n.hidden=false});
+ document.querySelectorAll("a.top-cart").forEach(function(l){var pre=/\/blog\//.test(location.pathname)?"../":"";l.setAttribute("href",pre+cUrl(a))});
+ document.querySelectorAll(".cart-add").forEach(function(b){var on=a.some(function(x){return x.id===b.dataset.id});b.setAttribute("aria-pressed",on?"true":"false");b.textContent=on?"✓ بالسلة":"+ أضف للسلة"})}
+document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".cart-add");if(!b)return;e.preventDefault();
+ var a=cRead(),id=b.dataset.id;if(a.some(function(x){return x.id===id}))a=a.filter(function(x){return x.id!==id});else a.push({id:id,c:b.dataset.code||"",k:b.dataset.cat||"",q:1});cWrite(a)});
+function cartPage(cat){
+ var box=document.getElementById("cart-list");if(!box)return;
+ var byId={},cats={};try{(cat&&cat.cats||[]).forEach(function(c){cats[c.key]=c});(cat&&cat.models||[]).forEach(function(m){byId[m.id]=m})}catch(e){}
+ var f=document.getElementById("cart-form"),err=document.getElementById("cart-err"),wa=document.getElementById("o-wa"),sent=document.getElementById("sent");
+ function val(id){var x=document.getElementById(id);return x?String(x.value||"").trim():""}
+ function items(){var known=Object.keys(byId).length>0;return cRead().filter(function(x){return !known||byId[x.id]}).map(function(x){var m=byId[x.id]||{};return {id:x.id,c:m.c||x.c||x.id,k:(cats[m.cat]||{}).title||x.k||"",q:x.q||1,n:x.n||""}})}
+ function waText(){var it=items(),t="مرحباً Dressingo 👋\nبدي أطلب هالموديلات بالجملة:\n\n";
+  it.forEach(function(x,i){t+=(i+1)+") كود "+x.c+(x.k?" ("+x.k+")":"")+" × "+x.q+" سيري"+(x.n?" — "+x.n:"")+"\n"});
+  if(!it.length)t+="(لسا ما اخترت موديلات)\n";
+  var nm=val("o-name"),ph=val("o-phone"),em=val("o-email"),co=val("o-country"),ci=val("o-city"),no=val("o-note");
+  t+="\n"+(nm?"الاسم: "+nm+"\n":"")+(ph?"الرقم: "+ph+"\n":"")+(em?"الإيميل: "+em+"\n":"")+((co||ci)?"البلد: "+[co,ci].filter(Boolean).join(" – ")+"\n":"")+(no?"ملاحظة: "+no+"\n":"");
+  return t}
+ function sync(){if(wa)wa.href="https://wa.me/"+WA+"?text="+encodeURIComponent(waText());var h=document.getElementById("o-ids");if(h)h.value=items().map(function(x){return x.c}).join(",")}
+ function draw(){var it=items(),cn=document.getElementById("cart-count");if(cn)cn.textContent=it.length?"("+it.length+")":"";
+  if(!it.length){box.innerHTML='<li class="cart-empty">السلة فاضية. افتح أي قسم واضغط «أضف للسلة» تحت الموديلات اللي بدك ياها.</li>';sync();return}
+  box.innerHTML=it.map(function(x){var m=byId[x.id]||{},im=(m.img||[])[0]||"";
+   return '<li class="cart-row" data-id="'+esc(x.id)+'">'+(im?'<img src="'+esc(im)+'" alt="" width="64" height="85" loading="lazy">':'<span class="cart-noimg"></span>')+
+   '<div class="cart-info"><b dir="ltr">'+esc(x.c)+'</b><small>'+esc(x.k)+'</small>'+
+   '<label class="cart-q"><span>سيري</span><input type="number" inputmode="numeric" min="1" max="99" value="'+(x.q||1)+'" data-f="q" aria-label="كم سيري للكود '+esc(x.c)+'"></label>'+
+   '<input class="cart-n2" type="text" maxlength="80" placeholder="ملاحظة للموديل (اختياري)" value="'+esc(x.n||"")+'" data-f="n"></div>'+
+   '<button type="button" class="cart-rm" aria-label="شيل الكود '+esc(x.c)+'">×</button></li>'}).join("");sync()}
+ box.addEventListener("click",function(e){var b=e.target.closest(".cart-rm");if(!b)return;var id=b.closest(".cart-row").dataset.id;cWrite(cRead().filter(function(x){return x.id!==id}));try{var u=new URL(location.href);u.searchParams.delete("c");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e2){}draw()});
+ box.addEventListener("input",function(e){var t=e.target,r=t.closest(".cart-row");if(!r)return;var a=cRead();a.forEach(function(x){if(x.id===r.dataset.id){if(t.dataset.f==="q")x.q=Math.max(1,Math.min(99,parseInt(t.value,10)||1));if(t.dataset.f==="n")x.n=String(t.value).slice(0,80)}});cWrite(a);sync()});
+ if(f){f.noValidate=true;f.addEventListener("input",sync);
+  f.addEventListener("submit",function(e){e.preventDefault();err.hidden=true;
+   var nm=val("o-name"),ph=val("o-phone");
+   if(!nm||ph.replace(/[^\d]/g,"").length<6){err.textContent="اكتب اسمك ورقم هاتف صحيح لنقدر نتواصل معك.";err.hidden=false;return}
+   var it=items();if(!it.length&&!val("o-note")){err.textContent="السلة فاضية. ضيف موديلات أو اكتب الأكواد بالملاحظة.";err.hidden=false;return}
+   var btn=document.getElementById("o-send");btn.disabled=true;btn.textContent="عم نبعت…";
+   var body={name:nm,phone:ph,email:val("o-email"),country:val("o-country"),city:val("o-city"),note:val("o-note"),items:it.map(function(x){return {c:x.c,k:x.k,q:x.q,n:x.n}}),hp:(f.querySelector('[name=hp]')||{}).value||""};
+   var done=function(ok){btn.disabled=false;btn.textContent="أرسل الطلب";
+    if(ok){cWrite([]);f.hidden=true;document.querySelector(".cart-box").hidden=true;if(sent){sent.classList.add("on");try{sent.scrollIntoView()}catch(e3){}}}
+    else{err.textContent="ما قدرنا نبعت الطلب هلأ. جرّب مرة تانية، أو اضغط «أرسل عالواتساب».";err.hidden=false}};
+   try{fetch(f.getAttribute("action"),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body),mode:"cors"}).then(function(r){return r.json()}).then(function(j){done(!!(j&&j.ok))}).catch(function(){done(false)})}catch(e4){done(false)}
+  })}
+ try{if(/[?&]sent=1/.test(location.search)&&sent){sent.classList.add("on");cWrite([])}}catch(e){}
+ try{var u0=new URL(location.href);if(u0.searchParams.get("c")){cWrite(cRead());u0.searchParams.delete("c");history.replaceState(null,"",u0.pathname+u0.search+u0.hash)}}catch(e){}
+ draw()}
 function waCard(m,t){var tx="مرحباً Dressingo 👋\nبدي سعر الجملة لهالموديل: كود "+m.c+(t?" ("+t+")":"")+(m.new?" 🆕 موديل جديد":"");return "https://wa.me/"+WA+"?text="+encodeURIComponent(tx)}
 function card(m,t,sub){
  var c=esc(m.c),tt=esc(t),lb=esc(sub||t),w=m.w||480,h=m.h||600,im=m.img||[],sw="",me="";
@@ -105,7 +158,7 @@ function card(m,t,sub){
  if(m.sizes)me+='<li><span>المقاسات</span><b dir="ltr">'+esc(m.sizes)+'</b></li>';
  if(m.fabric)me+='<li><span>القماش</span><b>'+esc(m.fabric)+'</b></li>';
  if(m.colors)me+='<li><span>الألوان</span><b>'+esc(m.colors)+'</b></li>';
- return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+(m.new?' data-new="1"':'')+'>\n <div class="ph">'+(m.new?'<span class="nbadge">جديد 🆕</span>':'')+'<img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+(lb?'<p class="cat-l">'+lb+'</p>':'')+'\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <a class="card-wa" href="'+waCard(m,t)+'" target="_blank" rel="noopener" data-code="'+c+'"><svg class="wa-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg> اطلب على واتساب</a>\n </div>\n</article>';
+ return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+(m.new?' data-new="1"':'')+'>\n <div class="ph">'+(m.new?'<span class="nbadge">جديد 🆕</span>':'')+'<img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+(lb?'<p class="cat-l">'+lb+'</p>':'')+'\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <button type="button" class="cart-add" data-id="'+esc(m.id||"")+'" data-code="'+c+'" data-cat="'+tt+'" aria-pressed="'+(cHas(m.id)?"true":"false")+'">'+(cHas(m.id)?"✓ بالسلة":"+ أضف للسلة")+'</button>\n </div>\n</article>';
 }
 function fab(m){var f=String(m.fabric||"").split("·")[0].replace(/\d+\s*%/g,"").replace(/\s+/g," ").trim();return /^(إيلاستين|طقم)/.test(f)?"":f}
 /* APPROXIMATE fabric defaults, by category, for models whose fabric field is empty.
@@ -215,10 +268,13 @@ var cnv=document.querySelector(".catnav [aria-current]");if(cnv){var nv=cnv.pare
 try{localStorage.removeItem(KEY)}catch(e){}
 list=[];
 render();
-var needCat=document.getElementById("grid")||document.getElementById("new-rail")||document.querySelector(".tiles")||document.querySelector(".feat .grid");
+try{cUI()}catch(e){}
+var needCat=document.getElementById("cart-list")||document.getElementById("grid")||document.getElementById("new-rail")||document.querySelector(".tiles")||document.querySelector(".feat .grid");
 Promise.all([get("data/site.json").catch(function(){return null}),needCat?get("data/catalog.json").catch(function(){return null}):Promise.resolve(null)]).then(function(r){
  try{applySite(r[0])}catch(e){}
  if(needCat){if(r[1]){try{applyCatalog(r[1])}catch(e){}}else{var g=document.getElementById("grid");if(g&&g.dataset.cat&&!g.children.length)g.innerHTML='<p class="empty">ما قدرنا نحمّل الموديلات. حدّث الصفحة أو اسألنا على واتساب.</p>'}}
  render();if(q&&q.value)filt();fitAll();
+ try{cUI()}catch(e){}
+ try{cartPage(r[1])}catch(e){}
 });
 })();
