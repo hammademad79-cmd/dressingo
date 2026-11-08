@@ -117,8 +117,9 @@ function cartPage(cat){
    return '<li class="cart-row" data-id="'+esc(x.id)+'">'+(im?'<img src="'+esc(im)+'" alt="" width="64" height="85" loading="lazy">':'<span class="cart-noimg"></span>')+
    '<div class="cart-info"><b dir="ltr">'+esc(x.c)+'</b><small>'+esc(x.k)+'</small>'+
    '<label class="cart-q"><span>سيري</span><input type="number" inputmode="numeric" min="1" max="99" value="'+(x.q||1)+'" data-f="q" aria-label="كم سيري للكود '+esc(x.c)+'"></label>'+
-   '<input class="cart-n2" type="text" maxlength="80" placeholder="ملاحظة للموديل (اختياري)" value="'+esc(x.n||"")+'" data-f="n"></div>'+
-   '<button type="button" class="cart-rm" aria-label="شيل الكود '+esc(x.c)+'">×</button></li>'}).join("");sync()}
+   '</div>'+
+   '<button type="button" class="cart-rm" aria-label="شيل الكود '+esc(x.c)+'">×</button>'+
+   '<input class="cart-n2" type="text" maxlength="80" placeholder="ملاحظة (اختياري)" aria-label="ملاحظة للكود '+esc(x.c)+' (اختياري)" value="'+esc(x.n||"")+'" data-f="n"></li>'}).join("");sync()}
  box.addEventListener("click",function(e){var b=e.target.closest(".cart-rm");if(!b)return;var id=b.closest(".cart-row").dataset.id;cWrite(cRead().filter(function(x){return x.id!==id}));try{var u=new URL(location.href);u.searchParams.delete("c");history.replaceState(null,"",u.pathname+u.search+u.hash)}catch(e2){}draw()});
  box.addEventListener("input",function(e){var t=e.target,r=t.closest(".cart-row");if(!r)return;var a=cRead();a.forEach(function(x){if(x.id===r.dataset.id){if(t.dataset.f==="q")x.q=Math.max(1,Math.min(99,parseInt(t.value,10)||1));if(t.dataset.f==="n")x.n=String(t.value).slice(0,80)}});cWrite(a);sync()});
  if(f){f.noValidate=true;f.addEventListener("input",function(){sync();if(err)err.hidden=true});
@@ -253,7 +254,7 @@ function applyCatalog(d){
  var fb=document.querySelector(".hero .facts li b");if(fb)fb.textContent=vis.length;
  var nr=document.getElementById("new-rail");
  if(nr){var out=[];(d.cats||[]).forEach(function(c){vis.filter(function(m){return m.cat===c.key&&!m.f}).slice(0,2).forEach(function(m){out.push([m,c])})});
-  nr.innerHTML=out.map(function(x){return '<div class="nw">'+card(x[0],x[1].title)+'<a class="nw-cat" href="'+esc(x[1].key)+'.html">'+esc(x[1].title)+' ‹</a></div>'}).join("");
+  nr.innerHTML=out.map(function(x){var h=card(x[0],x[1].title),l='<p class="cat-l">'+esc(x[1].title)+'</p>';return '<div class="nw">'+(h.indexOf(l)>=0?h.replace(l,'<a class="cat-l nw-l" href="'+esc(x[1].key)+'.html">'+esc(x[1].title)+' ‹</a>'):h)+'</div>'}).join("");
   var ns=nr.closest(".newin");if(ns)ns.hidden=!out.length}
  var fg=document.querySelector(".feat .grid");
  if(fg){var fs=vis.filter(function(m){return m.f});if(fs.length)fg.innerHTML=fs.map(function(m){return card(m,(cats[m.cat]||{}).title||"")}).join("");fg.closest(".feat").hidden=!fs.length}
