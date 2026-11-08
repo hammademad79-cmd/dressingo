@@ -1,4 +1,4 @@
-/* Dressingo Toptan — catalog styles v7 (Nov 2026 redesign + phone fixes) */
+/* Dressingo Toptan — catalog styles v8 (Nov 2026 redesign + phone fixes) */
 @font-face{font-family:Tajawal;src:url(fonts/tajawal-bold.woff2) format("woff2");font-weight:400 900;font-display:swap}
 :root{
  --bk:#0b0b0b;--bk2:#141310;--bk3:#1d1b17;--line-d:#2e2a22;
@@ -34,7 +34,7 @@ button{font-family:inherit}
 .top-wa{display:inline-flex;align-items:center;gap:7px;background:var(--wa);color:#fff;text-decoration:none;font-weight:800;padding:9px 16px;border-radius:999px;font-size:15px;min-height:42px}
 .top-wa:hover{background:var(--wa-h)}
 .wa-ic{width:20px;height:20px;flex:none}
-.catnav{flex:1 0 100%;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 calc(-1*var(--gut));padding:8px var(--gut) 10px;-webkit-mask-image:linear-gradient(to left,#000 92%,transparent);mask-image:linear-gradient(to left,#000 92%,transparent)}
+.catnav{flex:1 0 100%;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 calc(-1*var(--gut));padding:8px var(--gut) 10px}
 .catnav::-webkit-scrollbar{display:none}
 .catnav a{flex:none;display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;border:1px solid #3a352b;color:#e9e2d3;text-decoration:none;font-size:14.5px;font-weight:700;white-space:nowrap;transition:background .15s,border-color .15s}
 .catnav a:hover{border-color:var(--gd);color:#fff}
@@ -46,7 +46,7 @@ button{font-family:inherit}
  .top-wa{margin-inline-start:auto;padding:9px 12px}
  .top-wa span{display:none}
 }
-@media (min-width:640px){.catnav .cn-sec{display:none}.catnav{-webkit-mask-image:none;mask-image:none}}
+@media (min-width:640px){.catnav .cn-sec{display:none}}
 @media (min-width:1000px){.top{padding-inline:max(var(--gut),calc((100% - var(--wrap))/2 + var(--gut)))}.catnav{margin:0;padding-inline:0;justify-content:flex-start}}
 
 /* ---------- buttons ---------- */
@@ -311,3 +311,27 @@ dialog.sheet:not([open]){display:none!important}
 body.has-list{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
 /* floating WhatsApp: on phones the header already carries the WhatsApp button, so the float would only cover cards */
 @media (max-width:639px){.wa-fab{display:none}}
+
+/* v7 header: compact and balanced on phones */
+@media (max-width:639px){
+ .top{gap:6px 10px;padding:6px var(--gut) 0}
+ .brand{gap:8px;min-height:40px}
+ .logo{width:32px;height:32px}
+ .brand-t b{font-size:15px;letter-spacing:2px}
+ .brand-t small{font-size:11px}
+ .top-wa{width:38px;height:38px;min-height:38px;padding:0;justify-content:center;border-radius:50%}
+ .top-wa .wa-ic{width:20px;height:20px}
+ .catnav{gap:6px;padding:4px var(--gut) 8px}
+ .catnav a{min-height:32px;padding:4px 12px;font-size:13px}
+ .hero-logo{display:none}
+ .hero{padding-top:32px}
+ html{scroll-padding-top:100px}
+}
+/* v7 photos: one consistent frame; fitted photos are positioned by script */
+.ph img.fit{object-fit:fill}
+
+/* v8 fail-safe for in-app browsers (Facebook/Instagram/Messenger webviews): no GPU blur/mask effects anywhere,
+   plain non-smooth scrolling, and the header is a normal opaque bar */
+html.iab{scroll-behavior:auto}
+html.iab .top{position:relative}
+html.iab .sheet::backdrop{background:rgba(0,0,0,.35)}
