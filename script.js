@@ -98,13 +98,14 @@ function fitImg(img){
 }
 document.addEventListener("load",function(e){var t=e.target;if(t&&t.tagName==="IMG"&&t.parentNode&&t.parentNode.classList&&t.parentNode.classList.contains("ph"))fitImg(t)},true);
 function fitAll(){document.querySelectorAll(".ph img").forEach(function(i){if(i.complete&&i.naturalWidth)fitImg(i)})}
+function waCard(m,t){var tx="مرحباً Dressingo 👋\nبدي سعر الجملة لهالموديل: كود "+m.c+(t?" ("+t+")":"")+(m.new?" 🆕 موديل جديد":"");return "https://wa.me/"+WA+"?text="+encodeURIComponent(tx)}
 function card(m,t,sub){
  var c=esc(m.c),tt=esc(t),lb=esc(sub||t),w=m.w||480,h=m.h||600,im=m.img||[],sw="",me="";
  if(im.length>1){var th=Math.floor(40*h/w);sw='<div class="sw" role="group" aria-label="صور أخرى">'+im.map(function(s,i){return '<button type="button" class="sw-b'+(i?'':' on')+'" data-src="'+esc(s)+'" aria-label="صورة '+(i+1)+'"><img src="'+esc(s)+'" alt="" loading="lazy" decoding="async" width="40" height="'+th+'"></button>'}).join("")+'</div>'}
  if(m.sizes)me+='<li><span>المقاسات</span><b dir="ltr">'+esc(m.sizes)+'</b></li>';
  if(m.fabric)me+='<li><span>القماش</span><b>'+esc(m.fabric)+'</b></li>';
  if(m.colors)me+='<li><span>الألوان</span><b>'+esc(m.colors)+'</b></li>';
- return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+(m.new?' data-new="1"':'')+'>\n <div class="ph">'+(m.new?'<span class="nbadge">جديد 🆕</span>':'')+'<img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+(lb?'<p class="cat-l">'+lb+'</p>':'')+'\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <button type="button" class="add" data-code="'+c+'" aria-pressed="false">+ أضف للقائمة</button>\n </div>\n</article>';
+ return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+(m.new?' data-new="1"':'')+'>\n <div class="ph">'+(m.new?'<span class="nbadge">جديد 🆕</span>':'')+'<img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+(lb?'<p class="cat-l">'+lb+'</p>':'')+'\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <a class="card-wa" href="'+waCard(m,t)+'" target="_blank" rel="noopener" data-code="'+c+'"><svg class="wa-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg> اطلب على واتساب</a>\n </div>\n</article>';
 }
 function fab(m){var f=String(m.fabric||"").split("·")[0].replace(/\d+\s*%/g,"").replace(/\s+/g," ").trim();return /^(إيلاستين|طقم)/.test(f)?"":f}
 /* APPROXIMATE fabric defaults, by category, for models whose fabric field is empty.
@@ -211,7 +212,8 @@ if(q)q.addEventListener("input",filt);
 window.addEventListener("storage",function(){list=load();buyer=loadB();render()});
 var lo=document.getElementById("lb-open");if(lo&&!document.getElementById("lb-t"))lo.innerHTML='<span class="lb-n" id="lb-n">0</span><span id="lb-t"> موديل بالقائمة</span>';
 var cnv=document.querySelector(".catnav [aria-current]");if(cnv){var nv=cnv.parentNode;try{nv.scrollLeft=cnv.offsetLeft-(nv.clientWidth-cnv.offsetWidth)/2}catch(e){}}
-buyerForm();
+try{localStorage.removeItem(KEY)}catch(e){}
+list=[];
 render();
 var needCat=document.getElementById("grid")||document.getElementById("new-rail")||document.querySelector(".tiles")||document.querySelector(".feat .grid");
 Promise.all([get("data/site.json").catch(function(){return null}),needCat?get("data/catalog.json").catch(function(){return null}):Promise.resolve(null)]).then(function(r){
