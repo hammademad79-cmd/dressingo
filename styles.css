@@ -493,3 +493,10 @@ a.ph{display:block;color:inherit;text-decoration:none}
 .cart-form label.cart-cons{display:flex;align-items:flex-start;gap:10px;margin:4px 0 14px;font-size:15px;font-weight:600;color:var(--ink2);line-height:1.5}
 .cart-form label.cart-cons input{width:22px;height:22px;min-height:0;flex:none;margin:1px 0 0;padding:0}
 .cart-form label.cart-cons span{display:inline;font-size:15px;margin:0;color:var(--ink2)}
+/* v13 (Nov 9): cart note on its own full-width line; «وصل جديد» category label inside the card, one line */
+.cart-row{flex-wrap:wrap}
+.cart-row>.cart-n2{flex:1 0 100%;width:100%;max-width:100%;order:9;margin:0;font-size:16px;min-height:44px}
+.cart-row>.cart-n2::placeholder{color:var(--mu);opacity:1}
+.nw .cat-l.nw-l{display:block;-webkit-line-clamp:unset;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;margin:-4px 0 0;font-size:13px;line-height:1.4;color:var(--gd-ink);font-weight:700;text-decoration:none}
+.nw .cat-l.nw-l:hover{text-decoration:underline}
+.fx-sel select{font-size:16px}
