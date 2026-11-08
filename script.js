@@ -108,7 +108,7 @@ function cWrite(a){CMEM=a;try{localStorage.setItem(CKEY,JSON.stringify(a))}catch
 function cHas(id){return cRead().some(function(x){return x.id===id})}
 function cUrl(a){var ids=(a||cRead()).map(function(x){return x.id});return "cart.html"+(ids.length?"?c="+encodeURIComponent(ids.join(",")).replace(/%2C/g,","):"")}
 function cUI(){var a=cRead();
- document.querySelectorAll(".cart-n").forEach(function(n){n.textContent=" ("+a.length+")";n.hidden=false});
+ document.querySelectorAll(".cart-n").forEach(function(n){n.textContent="\u00a0("+a.length+")";n.hidden=false});
  document.querySelectorAll("a.top-cart").forEach(function(l){var pre=/\/blog\//.test(location.pathname)?"../":"";l.setAttribute("href",pre+cUrl(a))});
  document.querySelectorAll(".cart-add").forEach(function(b){var on=a.some(function(x){return x.id===b.dataset.id});b.setAttribute("aria-pressed",on?"true":"false");b.textContent=on?"✓ بالسلة":"+ أضف للسلة"})}
 document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".cart-add");if(!b)return;e.preventDefault();
