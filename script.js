@@ -87,7 +87,7 @@ function fitImg(img){
   var x0=0,x1=sw-1,y0=0,y1=sh-1,tc=Math.max(1,sh*0.02),tr=Math.max(1,sw*0.02);
   while(x0<x1&&cols[x0]<tc)x0++;while(x1>x0&&cols[x1]<tc)x1--;while(y0<y1&&rows[y0]<tr)y0++;while(y1>y0&&rows[y1]<tr)y1--;
   var fx0=x0/sw,fx1=(x1+1)/sw,fy0=y0/sh,fy1=(y1+1)/sh;
-  var trimmed=(fx0>0.04||fx1<0.96||fy0>0.04||fy1<0.96);
+  var trimmed=Math.abs(fx0-(1-fx1))>0.12;
   var BW=3,BH=4,cw=(fx1-fx0)*nw,ch=(fy1-fy0)*nh,s,cover=false;
   if(!trimmed)return;
   s=Math.min(BW/cw,BH/ch)*0.94;
