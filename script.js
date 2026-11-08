@@ -64,13 +64,13 @@ function render(){
 }
 /* ---- catalog data (data/catalog.json, data/site.json) ---- */
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
-function card(m,t){
- var c=esc(m.c),tt=esc(t),w=m.w||480,h=m.h||600,im=m.img||[],sw="",me="";
+function card(m,t,sub){
+ var c=esc(m.c),tt=esc(t),lb=esc(sub||t),w=m.w||480,h=m.h||600,im=m.img||[],sw="",me="";
  if(im.length>1){var th=Math.floor(40*h/w);sw='<div class="sw" role="group" aria-label="صور أخرى">'+im.map(function(s,i){return '<button type="button" class="sw-b'+(i?'':' on')+'" data-src="'+esc(s)+'" aria-label="صورة '+(i+1)+'"><img src="'+esc(s)+'" alt="" loading="lazy" decoding="async" width="40" height="'+th+'"></button>'}).join("")+'</div>'}
  if(m.sizes)me+='<li><span>المقاسات</span><b dir="ltr">'+esc(m.sizes)+'</b></li>';
  if(m.fabric)me+='<li><span>القماش</span><b>'+esc(m.fabric)+'</b></li>';
  if(m.colors)me+='<li><span>الألوان</span><b>'+esc(m.colors)+'</b></li>';
- return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+(m.new?' data-new="1"':'')+'>\n <div class="ph">'+(m.new?'<span class="nbadge">جديد 🆕</span>':'')+'<img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <button type="button" class="add" data-code="'+c+'" aria-pressed="false">+ أضف للقائمة</button>\n </div>\n</article>';
+ return '<article class="card" data-code="'+c+'" data-cat="'+tt+'" data-line="'+esc(m.g||"")+'" data-fab="'+esc(fabF(m))+'"'+(big(m)?' data-big="1"':'')+(m.new?' data-new="1"':'')+'>\n <div class="ph">'+(m.new?'<span class="nbadge">جديد 🆕</span>':'')+'<img src="'+esc(im[0]||"")+'" alt="موديل '+c+' — '+tt+'" loading="lazy" decoding="async" width="'+w+'" height="'+h+'"></div>\n <div class="cb">\n  <p class="code">كود <b dir="ltr">'+c+'</b></p>\n  '+(lb?'<p class="cat-l">'+lb+'</p>':'')+'\n  '+sw+'\n  <ul class="meta">'+me+'</ul>\n  <button type="button" class="add" data-code="'+c+'" aria-pressed="false">+ أضف للقائمة</button>\n </div>\n</article>';
 }
 function fab(m){var f=String(m.fabric||"").split("·")[0].replace(/\d+\s*%/g,"").replace(/\s+/g," ").trim();return /^(إيلاستين|طقم)/.test(f)?"":f}
 /* APPROXIMATE fabric defaults, by category, for models whose fabric field is empty.
@@ -105,7 +105,7 @@ function applyCatalog(d){
  var grid=document.getElementById("grid");
  if(grid&&grid.dataset.cat){
   var k=grid.dataset.cat,c=cats[k]||{title:"",groups:[]},ms=vis.filter(function(m){return m.cat===k});
-  grid.innerHTML=ms.map(function(m){return card(m,c.title)}).join("");
+  grid.innerHTML=ms.map(function(m){return card(m,c.title,m.g)}).join("");
   var hp=document.querySelector(".cat-hero p:not(.crumb)");if(hp)hp.textContent=ms.length+" موديل"+(c.sub?" · "+c.sub:"");
   var md=document.querySelector('meta[name="description"]');if(md)md.content=md.content.replace(/^\d+/,ms.length);
   var ch=document.querySelector(".chips");
@@ -160,6 +160,7 @@ function filt(){
 if(q)q.addEventListener("input",filt);
 window.addEventListener("storage",function(){list=load();buyer=loadB();render()});
 var lo=document.getElementById("lb-open");if(lo&&!document.getElementById("lb-t"))lo.innerHTML='<span class="lb-n" id="lb-n">0</span><span id="lb-t"> موديل بالقائمة</span>';
+var cnv=document.querySelector(".catnav [aria-current]");if(cnv){var nv=cnv.parentNode;try{nv.scrollLeft=cnv.offsetLeft-(nv.clientWidth-cnv.offsetWidth)/2}catch(e){}}
 buyerForm();
 render();
 var needCat=document.getElementById("grid")||document.getElementById("new-rail")||document.querySelector(".tiles")||document.querySelector(".feat .grid");
