@@ -146,9 +146,24 @@ document.addEventListener("click",function(e){
  if(ch){document.querySelectorAll(".chip").forEach(function(x){x.classList.toggle("on",x===ch)});filt();return}
 });
 var dlg=document.getElementById("sheet");
-var op=document.getElementById("lb-open");if(op&&dlg)op.addEventListener("click",function(){if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","")});
-var cl=document.getElementById("sheet-close");if(cl)cl.addEventListener("click",function(){dlg.close?dlg.close():dlg.removeAttribute("open")});
-var cr=document.getElementById("sheet-clear");if(cr)cr.addEventListener("click",function(){list=[];save(list);render();dlg.close&&dlg.close()});
+/* v7: the order sheet is closed by default, has a visible × at the top, closes on a tap outside,
+   on Esc, after "send", and whenever the page is shown again (back from WhatsApp); it never locks the page. */
+function sheetOpen(){return !!(dlg&&(dlg.open||dlg.hasAttribute("open")))}
+function closeSheet(){if(!dlg)return;try{if(dlg.close&&dlg.open)dlg.close()}catch(e){}dlg.removeAttribute("open");document.documentElement.classList.remove("sheet-on")}
+function openSheet(){if(!dlg)return;try{if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","")}catch(e){dlg.setAttribute("open","")}document.documentElement.classList.add("sheet-on")}
+if(dlg){
+ closeSheet();
+ if(!document.getElementById("sheet-x")){var sx=document.createElement("button");sx.type="button";sx.id="sheet-x";sx.className="sheet-x";sx.setAttribute("aria-label","إغلاق القائمة");sx.innerHTML="&times;";dlg.insertBefore(sx,dlg.firstChild)}
+ dlg.addEventListener("click",function(e){if(e.target===dlg||e.target.closest("#sheet-x"))closeSheet()});
+ dlg.addEventListener("close",function(){document.documentElement.classList.remove("sheet-on")});
+ document.addEventListener("click",function(e){if(sheetOpen()&&!e.target.closest("#sheet")&&!e.target.closest("#lb-open"))closeSheet()},true);
+ document.addEventListener("keydown",function(e){if(e.key==="Escape"&&sheetOpen())closeSheet()});
+ window.addEventListener("pageshow",closeSheet);window.addEventListener("pagehide",closeSheet);
+ var ss=document.getElementById("sheet-send");if(ss)ss.addEventListener("click",function(){setTimeout(closeSheet,300)});
+}
+var op=document.getElementById("lb-open");if(op&&dlg)op.addEventListener("click",openSheet);
+var cl=document.getElementById("sheet-close");if(cl)cl.addEventListener("click",closeSheet);
+var cr=document.getElementById("sheet-clear");if(cr)cr.addEventListener("click",function(){list=[];save(list);render();closeSheet()});
 var q=document.getElementById("q");
 function filt(){
  var v=q?q.value.trim().toUpperCase().replace(/\s+/g,""):"";var on=document.querySelector(".chip.on");var ln=on?on.dataset.line:"";var shown=0;
