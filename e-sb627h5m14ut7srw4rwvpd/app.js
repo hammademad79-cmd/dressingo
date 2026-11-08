@@ -138,7 +138,7 @@ function save(message,mutate,blobs,checkPath){
 }
 
 /* ---------- views ---------- */
-var views=["login","home","form","list","order","texts","pw"],cur="";
+var views=["login","home","form","list","order","texts","pw","orders","customers"],cur="";
 function show(v){views.forEach(function(x){$("v-"+x).classList.toggle("hide",x!==v)});cur=v;$("b-home").classList.toggle("hide",v==="home"||v==="login");window.scrollTo(0,0)}
 $("b-home").onclick=function(){show("home");homeInfo()};
 document.addEventListener("click",function(e){
@@ -151,6 +151,8 @@ function go(v){
  else if(v==="order"){fillCatSelect($("o-cat"),false);loadOrder();show("order")}
  else if(v==="texts"){fillTexts();show("texts")}
  else if(v==="pw"){show("pw")}
+ else if(v==="orders"){show("orders");loadOrders()}
+ else if(v==="customers"){show("customers");if(OD)renderCustomers();else loadOrders()}
 }
 function cats(){return (D&&D.cat.cats)||[]}
 function catTitle(k){var c=cats().filter(function(c){return c.key===k})[0];return c?c.title:k}
@@ -203,7 +205,7 @@ $("b-pw-save").onclick=function(){
 $("b-logout").onclick=function(){if(!confirm("أكيد بدك تطلع؟ رح تحتاج كلمة السر لتدخل من جديد."))return;forgetToken();token="";D=null;show("login")};
 function start(){
  busy("عم نحمّل الموديلات…");
- return readFresh().then(function(f){D=f;hideToast();show("home");homeInfo()}).catch(function(e){if(e&&e.status===401){forgetToken();token="";show("login");toast("bad","🔑 كلمة السر صحيحة، بس مفتاح الموقع منتهي أو انلغى.<br>المفتاح منتهي، تواصل معنا ونجدّده.",[{t:"تمام",pri:1,f:hideToast}])}else fail(e)});
+ return readFresh().then(function(f){D=f;hideToast();show("home");homeInfo();try{loadOrders()}catch(e){}}).catch(function(e){if(e&&e.status===401){forgetToken();token="";show("login");toast("bad","🔑 كلمة السر صحيحة، بس مفتاح الموقع منتهي أو انلغى.<br>المفتاح منتهي، تواصل معنا ونجدّده.",[{t:"تمام",pri:1,f:hideToast}])}else fail(e)});
 }
 
 /* ---------- photos ---------- */
@@ -409,6 +411,46 @@ $("t-save").onclick=function(){
   }).then(function(){return {files:files,site:s}});
  },null,SITE_PATH).then(function(){fillTexts();toastKeep()}).catch(function(){});
 };
+
+
+/* ---------- orders & customers (from the site's cart). Kept on the visits relay; it answers only to a
+   GitHub key that can write to the dressingo repo, i.e. this page after unlocking. ---------- */
+var RELAY="https://dressingo-visits.sites.tab.bot",OD=null;
+function rq(path){return fetch(RELAY+path,{headers:{"Authorization":"Bearer "+token},cache:"no-store"}).then(function(r){if(r.status===401)throw UErr("❌ ما قدرنا نفتح الطلبيات: المفتاح ما إلو صلاحية. اطلع وادخل من جديد.");if(!r.ok)throw UErr("❌ ما قدرنا نجيب الطلبيات هلق ("+r.status+"). جرّب كمان شوي.");return r})}
+function tms(ms){try{return new Date(ms).toLocaleString("en-GB",{timeZone:"Europe/Istanbul",day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}catch(e){return ""}}
+function waNum(p){var d=String(p||"").replace(/[^\d]/g,"");if(d.indexOf("00")===0)d=d.slice(2);return d.length>=8?d:""}
+function loadOrders(){$("ord-list").innerHTML='<p class="mu">عم نجيب الطلبيات…</p>';
+ return rq("/admin/orders").then(function(r){return r.json()}).then(function(j){OD=j;var f=$("ord-f");if(f.options.length<2)(j.statuses||[]).forEach(function(s){var o=document.createElement("option");o.value=s;o.textContent=s;f.appendChild(o)});renderOrders();renderCustomers();badge()})
+ .catch(function(e){$("ord-list").innerHTML='<p class="mu">'+esc(e.user?e.message:"❌ ما قدرنا نجيب الطلبيات هلق. تأكد من النت وجرّب كمان مرة.")+'</p>'})}
+function badge(){var b=$("ord-badge");if(!b||!OD)return;var n=OD.orders.filter(function(o){return !o.test&&o.status==="جديد"}).length;b.textContent=n?"("+n+" جديد)":""}
+function renderOrders(){if(!OD)return;var fs=$("ord-f").value,tests=$("ord-tests").checked;
+ var list=OD.orders.filter(function(o){return (tests||!o.test)&&(!fs||o.status===fs)});
+ var real=OD.orders.filter(function(o){return !o.test}).length,nt=OD.orders.length-real;
+ $("ord-sum").textContent=real+" طلب حقيقي"+(nt?" · "+nt+" تجربة"+(tests?"":" (مخفية)"):"")+(fs?" · معروض: "+list.length:"");
+ if(!list.length){$("ord-list").innerHTML='<div class="card"><p>لسا ما في طلبيات'+(fs?' بهالحالة':'')+'.</p><p class="mu">أول ما حدا يبعت طلب من «السلة» بالموقع بيطلع هون.</p></div>';return}
+ $("ord-list").innerHTML=list.map(function(o){var w=waNum(o.phone),pl=[o.country,o.city].filter(Boolean).join(" – ");
+  return '<div class="oc" data-n="'+o.n+'"><div class="oc-h"><b>طلب #'+o.n+'</b><span class="tm">'+esc(tms(o.at))+'</span></div>'+
+  '<div>'+(o.channel==="wa"?'<span class="tag wa">واتساب</span>':'<span class="tag">نموذج</span>')+(o.consent?'<span class="tag ok">✅ عروض</span>':'')+(o.test?'<span class="tag test">تجربة</span>':'')+'</div>'+
+  '<p class="who">'+esc(o.name||"(بدون اسم)")+'</p>'+
+  (o.phone?'<p class="ln">📞 <span dir="ltr">'+esc(o.phone)+'</span></p>':'')+(o.email?'<p class="ln">✉️ <span dir="ltr">'+esc(o.email)+'</span></p>':'')+(pl?'<p class="ln">📍 '+esc(pl)+'</p>':'')+
+  '<ul>'+(o.items||[]).map(function(it){return '<li>كود <b dir="ltr">'+esc(it.c)+'</b>'+(it.k?' · '+esc(it.k):'')+' × '+(it.q||1)+' سيري'+(it.n?' — '+esc(it.n):'')+'</li>'}).join("")+'</ul>'+
+  (o.note?'<p class="ln">📝 '+esc(o.note)+'</p>':'')+
+  '<label class="mu" style="margin:8px 0 4px">الحالة</label><select class="st-sel'+(o.status==="جديد"?" st-new":"")+'" data-n="'+o.n+'">'+(OD.statuses||[]).map(function(s){return '<option'+(s===o.status?' selected':'')+'>'+esc(s)+'</option>'}).join("")+'</select> '+
+  (w?'<a class="wa-l" href="https://wa.me/'+w+'" target="_blank" rel="noopener noreferrer">💬 راسله واتساب</a>':'')+'</div>'}).join("")}
+function renderCustomers(){if(!OD)return;var only=$("cus-consent").checked;
+ var cs=(OD.customers||[]).filter(function(c){return !c.test&&(!only||c.consent)}),nt=(OD.customers||[]).filter(function(c){return c.test}).length;
+ $("cus-sum").textContent=cs.length+" زبون"+(nt?" · "+nt+" تجربة مخفية":"");
+ if(!cs.length){$("cus-list").innerHTML='<div class="card"><p>لسا ما في زبائن'+(only?' وافقوا على العروض':'')+'.</p><p class="mu">كل حدا بيبعت طلب بيطلع هون مرة وحدة حسب رقمه.</p></div>';return}
+ $("cus-list").innerHTML=cs.map(function(c){var w=c.key&&c.key.length>=8?c.key:"",pl=[c.country,c.city].filter(Boolean).join(" – ");
+  return '<div class="oc"><p class="who">'+esc(c.name||"(بدون اسم)")+(c.consent?' <span class="tag ok">✅ عروض</span>':'')+'</p>'+
+  (c.phone?'<p class="ln">📞 <span dir="ltr">'+esc(c.phone)+'</span></p>':'')+(c.email?'<p class="ln">✉️ <span dir="ltr">'+esc(c.email)+'</span></p>':'')+(pl?'<p class="ln">📍 '+esc(pl)+'</p>':'')+
+  '<p class="ln mu">'+c.orders+' طلب · '+c.codes+' موديل · آخر طلب '+esc(tms(c.last))+'</p>'+(w?'<a class="wa-l" href="https://wa.me/'+w+'" target="_blank" rel="noopener noreferrer">💬 راسله واتساب</a>':'')+'</div>'}).join("")}
+function dl(path,name){busy("عم نجهّز الملف…");rq(path).then(function(r){return r.blob()}).then(function(b){hideToast();var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove()},4000)}).catch(function(e){toast("bad",e.user?e.message:"❌ ما قدرنا ننزّل الملف هلق.",[{t:"تمام",pri:1,f:hideToast}])})}
+document.addEventListener("change",function(e){var s=e.target.closest&&e.target.closest(".st-sel");if(!s)return;var n=+s.dataset.n,v=s.value;s.disabled=true;
+ fetch(RELAY+"/admin/orders/status",{method:"POST",headers:{"Authorization":"Bearer "+token,"content-type":"application/json"},body:JSON.stringify({n:n,status:v})}).then(function(r){if(!r.ok)throw new Error(r.status);OD.orders.forEach(function(o){if(o.n===n)o.status=v});s.disabled=false;s.classList.toggle("st-new",v==="جديد");badge()})
+ .catch(function(){s.disabled=false;toast("bad","❌ ما انحفظت الحالة. جرّب كمان مرة.",[{t:"تمام",pri:1,f:hideToast}])})});
+$("ord-f").onchange=renderOrders;$("ord-tests").onchange=renderOrders;$("cus-consent").onchange=renderCustomers;$("ord-reload").onclick=loadOrders;
+$("ord-csv").onclick=function(){dl("/admin/orders.csv","dressingo-orders.csv")};$("cus-csv").onclick=function(){dl("/admin/customers.csv","dressingo-customers.csv")};
 
 /* ---------- boot ---------- */
 if(token)start();else show("login");
