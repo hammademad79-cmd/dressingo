@@ -1,0 +1,1 @@
+Meta product feed for WhatsApp catalog. Generated from data/catalog.json.
