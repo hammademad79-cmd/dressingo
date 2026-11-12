@@ -341,3 +341,15 @@ Promise.all([get("data/site.json").catch(function(){return null}),needCat?get("d
  try{homeSearch(r[1])}catch(e){}
 });
 })();
+
+/* v14: after "add to cart" show a toast + a floating bar to the cart (Emad 12/11) */
+function cToast(on){var a=cRead();var pre=/\/blog\//.test(location.pathname)?"../":"";
+ var t=document.getElementById("c-toast");if(!t){t=document.createElement("div");t.id="c-toast";t.setAttribute("role","status");document.body.appendChild(t)}
+ t.innerHTML=(on?"✓ انضاف للسلة":"انشال من السلة")+' · <a href="'+pre+cUrl(a)+'">شوف السلة وكمّل الطلب ('+a.length+')</a>';
+ t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("show")},4500);cBar()}
+function cBar(){var a=cRead();if(/cart\.html/.test(location.pathname))return;var pre=/\/blog\//.test(location.pathname)?"../":"";
+ var b=document.getElementById("c-bar");if(!a.length){if(b)b.remove();return}
+ if(!b){b=document.createElement("a");b.id="c-bar";document.body.appendChild(b)}
+ b.setAttribute("href",pre+cUrl(a));b.innerHTML='🛒 بالسلة '+a.length+' موديل <b>كمّل الطلب ←</b>'}
+document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".cart-add");if(!b)return;setTimeout(function(){cToast(cHas(b.dataset.id))},0)});
+document.addEventListener("DOMContentLoaded",cBar);if(document.readyState!=="loading")setTimeout(cBar,0);
